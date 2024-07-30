@@ -56,4 +56,9 @@
 		2. llama.cpp
 		3. gguf format?
 		4. unsloth (blog)
-8. 
+8. Image Generation
+	1. GAN
+	2. Stable Diffusion
+	3. ControlNet
+	4. Automatic111
+	5. ComfyUI
