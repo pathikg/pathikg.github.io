@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pathik Ghugare - Machine Learning Engineer</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#experience">Experience</a></li>
+                <li><a href="#projects">Projects</a></li>
+                <li><a href="#skills">Skills</a></li>
+                <li><a href="#education">Education</a></li>
+                <li><a href="#blogs">Blogs</a></li>
+                <li><a href="https://drive.google.com/file/d/1g7eW-uAuk6j7JDY5y-vvLcyiK_rT8Smc/view">Resume</a>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <div class="header-content">
+            <h1>Pathik Ghugare</h1>
+            <a href="https://github.com/pathikg/">GitHub</a>
+            <a href="https://www.linkedin.com/in/pathik-ghugare/">Linkedin</a>
+            <!-- Placeholder for future profile picture -->
+            <!-- <img src="path_to_your_image.jpg" alt="Pathik Ghugare" class="profile-pic"> -->
+        </div>
+        <section id="about">
+            <h2>About Me</h2>
+            <p>Machine Learning Engineer with expertise in object detection, natural language processing, and cloud
+                deployment. Passionate about leveraging AI to solve complex problems and improve efficiency. My
+                interests span across various domains of AI, including:</p>
+            <ul>
+                <li>Computer Vision</li>
+                <li>Natural Language Processing (NLP)</li>
+                <li>Large Language Models (LLMs)</li>
+                <li>AI Agents</li>
+                <li>Deep Learning</li>
+                <li>Cloud-based AI Solutions</li>
+            </ul>
+        </section>
+
+        <section id="experience">
+            <h2>Experience</h2>
+            <div class="experience-item">
+                <h3>Machine Learning Engineer - Pibit.ai (YC 21)</h3>
+                <p class="date">Jun 2023-Present | Bengaluru, Karnataka</p>
+                <ul>
+                    <li>Engineered the Loss Run product through strategic label finalization, annotation planning, and
+                        Object Detection model training (YOLO+OCR), improving processing speed by 40% and reducing
+                        manual review time by 50%.</li>
+                    <li>Automated data preparation and model training pipelines on Azure Machine Learning, reducing data
+                        preparation time from 3-4 hours to 30-45 minutes. Implemented versioning and logging for data
+                        assets.</li>
+                    <li>Optimized YOLO model performance by 35% through extensive experimentation with dataset
+                        variations, model architectures, and hyperparameter tuning, enhancing object detection accuracy
+                        in production systems.</li>
+                    <li>Deployed models as a service using on AWS CodePipeline on AWS EKS and Lambda with 300ms latency.
+                    </li>
+                    <li>Developed 3 identity services by integrating YOLO and GPT-3.5, achieving 0.85 mAP and 0.95
+                        accuracy at the document level using small sized object detection models.</li>
+                    <li>Orchestrated the experimentation and testing of GPT-4V capabilities for Document Extraction;
+                        directed 4 interns in rapid experimentation, enhancing duration 25%.</li>
+                    <li>Boosted existing system efficiency through strategic implementation of advanced prompting
+                        techniques, including zero-shot, few-shot, chain-of-thought, and sequential prompting
+                        methodologies.</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>Deep Learning Intern - Pibit.ai (YC 21)</h3>
+                <p class="date">August 2022-Jun 2023 | Bengaluru, Karnataka</p>
+                <ul>
+                    <li>Enhanced an existing object detection model (YOLOv5) by implementing image weight sampling,
+                        improving the mAP score from 0.62 to 0.74.</li>
+                    <li>Integrated Azure MLFlow for better experiment as well as model tracking and built an
+                        auto-annotation pipeline using CVAT data annotation tool.</li>
+                    <li>Trained an OCR-free document model (DONUT) with an accuracy of TED 0.81.</li>
+                    <li>Implemented multiple YOLO models for identity services on AWS Lambda with mAP score of 0.9.</li>
+                    <li>Worked on template standardization to handle imbalances and data drift for multiple document
+                        templates.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="projects">
+            <h2>Projects</h2>
+            <div class="project-item">
+                <h3>
+                    <a href="https://github.com/pathikg/DogLLaMA" target="_blank">DogLLaMA</a>
+                    <!-- <a href="https://huggingface.co/your-username/DogLLaMA" class="live-demo" target="_blank">Live Demo</a> -->
+                </h3>
+                <ul>
+                    <li>Fine-tuned the LLaMA2-7b language model on an English text dataset translated into Dog
+                        Style
+                        Messages using GPT-3.5-turbo, creating a unique and playful model called "DogLLaMA-7b" in llama2
+                        compatible format.</li>
+                    <li>Published the <a href="https://huggingface.co/datasets/pathikg/DogLLAMA-small"
+                            target="_blank">DogLLAMA
+                            dataset</a> on Hugging Face.</li>
+                    <li>For model fine-tuning, utilized PEFT with LoRa and BitsAndBytes for quantization.
+                    </li>
+                </ul>
+            </div>
+            <div class="project-item">
+                <h3>
+                    <h4><a href="https://github.com/pathikg/BudgetGPT" target="_blank">BudgetGPT</a></h4>
+                    <!-- <a href="https://your-streamlit-app-url.com" class="live-demo" target="_blank">Live Demo</a> -->
+                </h3>
+                <ul>
+                    <li>Engineering Budget QA Agent using GPT4o-mini and RAG technologies for the Indian budget-related
+                        inquiries.</li>
+                    <li>Optimized data retrieval by implementing an in-memory vectorstore for OpenAI Embeddings of each
+                        PDF chunk.</li>
+                    <li>Utilized the concept of tools to use different vector indexes based on the user query.</li>
+                    <li>Orchestrated an Agentic RAG system using LlamaIndex and <a
+                            href="https://budgetgpt.streamlit.app" target="_blank">deployed</a> on streamlit.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="blogs">
+            <h2>Blogs</h2>
+            <div class="blog-list">
+                <div class="blog-item">
+                    <h3><a href="https://www.youtube.com/watch?v=xvFZjo5PgG0">Coming soon...</a></h3>
+                    <p>Stay tuned :)</p>
+                </div>
+                <!-- More blog entries can be added here in the future -->
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2>Skills</h2>
+            <div class="skills-category">
+                <h3>Frameworks</h3>
+                <div class="skills-list">
+                    <span class="skill">HuggingFace</span>
+                    <span class="skill">Langchain</span>
+                    <span class="skill">Llamaindex</span>
+                    <span class="skill">Haystack</span>
+                    <span class="skill">PyTorch</span>
+                    <span class="skill">Tensorflow</span>
+                    <span class="skill">Keras</span>
+                    <span class="skill">Numpy</span>
+                    <span class="skill">Pandas</span>
+                </div>
+            </div>
+            <div class="skills-category">
+                <h3>Tools</h3>
+                <div class="skills-list">
+                    <span class="skill">Git</span>
+                    <span class="skill">GitHub</span>
+                    <span class="skill">VSCode</span>
+                    <span class="skill">Cursor</span>
+                    <span class="skill">LMStudio</span>
+                    <span class="skill">Ollama</span>
+                    <span class="skill">Google Colab</span>
+                </div>
+            </div>
+            <div class="skills-category">
+                <h3>Infrastructure</h3>
+                <div class="skills-list">
+                    <span class="skill">Kubernetes</span>
+                    <span class="skill">Helm</span>
+                    <span class="skill">Docker</span>
+                </div>
+            </div>
+            <div class="skills-category">
+                <h3>Cloud Services</h3>
+                <div class="skills-list">
+                    <span class="skill">AWS</span>
+                    <span class="skill">Azure</span>
+                    <span class="skill">GCP</span>
+                    <span class="skill">Runpod</span>
+                </div>
+            </div>
+            <div class="skills-category">
+                <h3>Databases</h3>
+                <div class="skills-list">
+                    <span class="skill">MySQL</span>
+                    <span class="skill">PostgreSQL</span>
+                    <span class="skill">DynamoDB</span>
+                </div>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Education</h2>
+            <div class="education-item">
+                <h3>B.Tech in Computer Engineering</h3>
+                <p>K.J.Somaiya College Of Engineering, Mumbai, Maharashtra</p>
+                <p>August 2019-May 2023 | CGPA: 9.35</p>
+                <p>Coursework: Data Mining and Analysis, Software Engineering, Operating Systems, Artificial
+                    Intelligence</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Pathik Ghugare. All rights reserved.</p>
+    </footer>
+
+    <script src="index.js"></script>
+</body>
+
+</html>
