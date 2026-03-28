@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Study Tracker</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #0f0f11; color: #e2e2e5; min-height: 100vh; padding: 24px; }
+
+  h1 { font-size: 1.6rem; font-weight: 700; color: #fff; margin-bottom: 4px; }
+  .subtitle { color: #888; font-size: 0.85rem; margin-bottom: 24px; }
+
+  /* Overall progress */
+  .progress-overview { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 28px; }
+  .stat-card { background: #1a1a1f; border: 1px solid #2a2a32; border-radius: 10px; padding: 16px; }
+  .stat-label { font-size: 0.72rem; color: #666; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 6px; }
+  .stat-value { font-size: 1.5rem; font-weight: 700; color: #fff; }
+  .stat-sub { font-size: 0.78rem; color: #555; margin-top: 2px; }
+
+  /* Progress bar */
+  .progress-bar-wrap { background: #1a1a1f; border: 1px solid #2a2a32; border-radius: 10px; padding: 16px; margin-bottom: 28px; }
+  .progress-bar-label { display: flex; justify-content: space-between; font-size: 0.8rem; color: #888; margin-bottom: 8px; }
+  .progress-bar { height: 8px; background: #2a2a32; border-radius: 4px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, #6c63ff, #a78bfa); border-radius: 4px; transition: width 0.4s ease; }
+
+  /* Filters */
+  .filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+  .filter-btn { background: #1a1a1f; border: 1px solid #2a2a32; border-radius: 6px; padding: 6px 14px; font-size: 0.78rem; color: #888; cursor: pointer; transition: all 0.15s; }
+  .filter-btn:hover { border-color: #6c63ff; color: #a78bfa; }
+  .filter-btn.active { background: #6c63ff22; border-color: #6c63ff; color: #a78bfa; }
+
+  /* Category */
+  .category { margin-bottom: 28px; }
+  .category-header { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; cursor: pointer; user-select: none; }
+  .category-title { font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.1em; color: #a78bfa; }
+  .category-count { font-size: 0.72rem; color: #555; background: #1a1a1f; border: 1px solid #2a2a32; border-radius: 10px; padding: 2px 8px; }
+  .category-progress { font-size: 0.72rem; color: #666; margin-left: auto; }
+  .collapse-icon { color: #555; font-size: 0.7rem; transition: transform 0.2s; }
+  .collapsed .collapse-icon { transform: rotate(-90deg); }
+  .collapsed .topics-list { display: none; }
+
+  /* Topics table */
+  .topics-list { background: #1a1a1f; border: 1px solid #2a2a32; border-radius: 10px; overflow: hidden; }
+  .topic-row { display: grid; grid-template-columns: 1fr 90px 90px 100px 60px; align-items: center; padding: 11px 16px; border-bottom: 1px solid #22222a; gap: 8px; transition: background 0.1s; }
+  .topic-row:last-child { border-bottom: none; }
+  .topic-row:hover { background: #1e1e26; }
+  .topic-row.done-read { background: #0d1a1d; }
+  .topic-row.done-all { background: #0d1a10; }
+
+  .topic-name { font-size: 0.83rem; color: #ccc; }
+  .topic-name a { color: inherit; text-decoration: none; }
+  .topic-name a:hover { color: #a78bfa; }
+
+  .col-header { display: grid; grid-template-columns: 1fr 90px 90px 100px 60px; padding: 8px 16px; gap: 8px; }
+  .col-header span { font-size: 0.68rem; color: #555; text-transform: uppercase; letter-spacing: 0.08em; }
+  .col-header span:not(:first-child) { text-align: center; }
+
+  /* Checkboxes */
+  .check-cell { display: flex; justify-content: center; align-items: center; }
+  input[type="checkbox"] { appearance: none; width: 18px; height: 18px; border: 1.5px solid #3a3a45; border-radius: 4px; cursor: pointer; transition: all 0.15s; position: relative; flex-shrink: 0; }
+  input[type="checkbox"]:checked { background: #6c63ff; border-color: #6c63ff; }
+  input[type="checkbox"]:checked::after { content: '✓'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); color: #fff; font-size: 11px; font-weight: 700; }
+  input[type="checkbox"].content-check:checked { background: #22c55e; border-color: #22c55e; }
+  input[type="checkbox"].notes-check:checked { background: #f59e0b; border-color: #f59e0b; }
+
+  /* Day badge */
+  .day-badge { font-size: 0.68rem; padding: 2px 7px; border-radius: 4px; background: #2a2a32; color: #666; text-align: center; white-space: nowrap; }
+  .day-badge.phase1 { background: #1e1030; color: #a78bfa; }
+  .day-badge.phase2 { background: #0d1a2e; color: #60a5fa; }
+  .day-badge.ongoing { background: #1a1a0d; color: #ca8a04; }
+
+  /* Legend */
+  .legend { display: flex; gap: 16px; margin-bottom: 20px; flex-wrap: wrap; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.75rem; color: #666; }
+  .legend-dot { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* Search */
+  .search-wrap { margin-bottom: 16px; }
+  .search-input { width: 100%; background: #1a1a1f; border: 1px solid #2a2a32; border-radius: 8px; padding: 10px 14px; color: #ccc; font-size: 0.85rem; outline: none; transition: border-color 0.15s; }
+  .search-input:focus { border-color: #6c63ff; }
+  .search-input::placeholder { color: #444; }
+
+  .hidden { display: none !important; }
+
+  @media (max-width: 600px) {
+    .topic-row, .col-header { grid-template-columns: 1fr 50px 50px 60px; }
+    .day-col { display: none; }
+    .progress-overview { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<h1>AI Study Tracker</h1>
+<p class="subtitle">Based on <a href="https://aman.ai/primers/ai/" style="color:#6c63ff;text-decoration:none;">aman.ai/primers/ai</a> — Interview prep + content writing plan</p>
+
+<div class="progress-overview">
+  <div class="stat-card">
+    <div class="stat-label">Topics Read</div>
+    <div class="stat-value" id="stat-read">0</div>
+    <div class="stat-sub" id="stat-read-sub">of 0 total</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Notes Written</div>
+    <div class="stat-value" id="stat-notes">0</div>
+    <div class="stat-sub">interview notes</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-label">Content Published</div>
+    <div class="stat-value" id="stat-content">0</div>
+    <div class="stat-sub">docs / substacks</div>
+  </div>
+</div>
+
+<div class="progress-bar-wrap">
+  <div class="progress-bar-label">
+    <span>Overall Reading Progress</span>
+    <span id="progress-pct">0%</span>
+  </div>
+  <div class="progress-bar"><div class="progress-fill" id="progress-fill" style="width:0%"></div></div>
+</div>
+
+<div class="search-wrap">
+  <input type="text" class="search-input" id="search" placeholder="Search topics..." oninput="filterTopics()">
+</div>
+
+<div class="filters">
+  <button class="filter-btn active" onclick="setFilter('all', this)">All</button>
+  <button class="filter-btn" onclick="setFilter('unread', this)">Unread</button>
+  <button class="filter-btn" onclick="setFilter('read', this)">Read</button>
+  <button class="filter-btn" onclick="setFilter('no-notes', this)">No Notes</button>
+  <button class="filter-btn" onclick="setFilter('no-content', this)">No Content</button>
+  <button class="filter-btn" onclick="setFilter('phase1', this)">Phase 1 (Sprint)</button>
+  <button class="filter-btn" onclick="setFilter('phase2', this)">Phase 2 (Steady)</button>
+</div>
+
+<div class="legend">
+  <div class="legend-item"><div class="legend-dot" style="background:#1e1030"></div> Phase 1 (Days 1-9)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#0d1a2e"></div> Phase 2 (Day 10+)</div>
+  <div class="legend-item"><div class="legend-dot" style="background:#1a1a0d"></div> Ongoing</div>
+</div>
+
+<div id="topics-container"></div>
+
+<script>
+const topics = [
+  // Algorithms/Architecture
+  { cat: "Algorithms / Architecture", name: "Linear and Logistic Regression", url: "https://aman.ai/primers/ai/linear-logistic-regression", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "k-Nearest Neighbors", url: "https://aman.ai/primers/ai/k-nearest-neighbors", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Clustering", url: "https://aman.ai/primers/ai/clustering", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Support Vector Machines (SVM)", url: "https://aman.ai/primers/ai/support-vector-machines", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Naive Bayes", url: "https://aman.ai/primers/ai/naive-bayes", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Decision Trees and Ensemble Methods", url: "https://aman.ai/primers/ai/decision-trees-and-ensemble-methods", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "ML Algorithms Comparative Analysis", url: "https://aman.ai/primers/ai/ml-comp", day: "Day 1", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "DL Architectures Comparative Analysis", url: "https://aman.ai/primers/ai/dl-comp", day: "Day 3", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Neural Architectures", url: "https://aman.ai/primers/ai/architectures", day: "Day 3", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Encoder vs. Decoder vs. Encoder-Decoder", url: "https://aman.ai/primers/ai/encoder-vs-decoder-models", day: "Day 4", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Prompt Engineering", url: "https://aman.ai/primers/ai/prompt-engineering", day: "Day 7", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Generative Adversarial Networks (GANs)", url: "https://aman.ai/primers/ai/gan", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Diffusion Models", url: "https://aman.ai/primers/ai/diffusion-models", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Graph Neural Networks", url: "https://aman.ai/primers/ai/gnn", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Attention", url: "https://aman.ai/primers/ai/attention", day: "Day 4", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Transformers", url: "https://aman.ai/primers/ai/transformers", day: "Day 4", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Token Sampling Methods", url: "https://aman.ai/primers/ai/token-sampling", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Separable Convolutions", url: "https://aman.ai/primers/ai/separable-convolutions", day: "Day 3", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Inductive Bias", url: "https://aman.ai/primers/ai/inductive-bias", day: "Day 3", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Convolutional Neural Networks", url: "https://aman.ai/primers/ai/cnn", day: "Day 3", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Reinforcement Learning", url: "https://aman.ai/primers/ai/reinforcement-learning", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Mixture-of-Experts", url: "https://aman.ai/primers/ai/mixture-of-experts", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "State Space Models", url: "https://aman.ai/primers/ai/state-space-models", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Agents", url: "https://aman.ai/primers/ai/agents", day: "Day 7", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Agentic Reinforcement Learning", url: "https://aman.ai/primers/ai/agentic-RL", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "LLM-as-a-Judge / Autoraters", url: "https://aman.ai/primers/ai/LLM-as-a-judge", day: "Day 9", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "FlashAttention", url: "https://aman.ai/primers/ai/flashattention", day: "Day 4", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Model Acceleration", url: "https://aman.ai/primers/ai/model-acceleration", day: "Day 9", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Speculative Decoding", url: "https://aman.ai/primers/ai/speculative-decoding", day: "Day 8", phase: "phase1" },
+  { cat: "Algorithms / Architecture", name: "Cross Validation", url: "https://aman.ai/primers/ai/cross-validation", day: "Day 2", phase: "phase1" },
+
+  // Data/Training
+  { cat: "Data / Training", name: "Data Sampling", url: "https://aman.ai/primers/ai/data-sampling", day: "Day 9", phase: "phase1" },
+  { cat: "Data / Training", name: "Data Imbalance", url: "https://aman.ai/primers/ai/data-imbalance", day: "Day 9", phase: "phase1" },
+  { cat: "Data / Training", name: "Data Quality / Filtering", url: "https://aman.ai/primers/ai/data-filtering", day: "Day 9", phase: "phase1" },
+  { cat: "Data / Training", name: "Standardization vs. Normalization", url: "https://aman.ai/primers/ai/standardization-vs-normalization", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Inter-Annotator Agreement", url: "https://aman.ai/primers/ai/inter-annotator-agreement", day: "Day 9", phase: "phase1" },
+  { cat: "Data / Training", name: "Learning Paradigms", url: "https://aman.ai/primers/ai/learning-paradigms", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Xavier Initialization", url: "https://aman.ai/primers/ai/xavier-init", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Padding and Packing", url: "https://aman.ai/primers/ai/padding-and-packing", day: "Day 3", phase: "phase1" },
+  { cat: "Data / Training", name: "Regularization", url: "https://aman.ai/primers/ai/regularization", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Gradient Descent and Backprop", url: "https://aman.ai/primers/ai/gradient-descent-and-backprop", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Activation Functions", url: "https://aman.ai/primers/ai/activation-functions", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Loss Functions", url: "https://aman.ai/primers/ai/loss", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Fine-tuning Models", url: "https://aman.ai/primers/ai/fine-tuning-models", day: "Day 6", phase: "phase1" },
+  { cat: "Data / Training", name: "Splitting Datasets", url: "https://aman.ai/primers/ai/data-split", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Batchnorm", url: "https://aman.ai/primers/ai/batchnorm", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Dropout", url: "https://aman.ai/primers/ai/dropout", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Double Descent", url: "https://aman.ai/primers/ai/double-descent", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Fine-Tuning and Evaluating BERT", url: "https://aman.ai/primers/ai/fine-tune-and-eval-BERT", day: "Day 6", phase: "phase1" },
+  { cat: "Data / Training", name: "Training Loss > Validation Loss?", url: "https://aman.ai/primers/ai/train-val-loss", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Bias Variance Tradeoff", url: "https://aman.ai/primers/ai/bias-variance-tradeoff", day: "Day 2", phase: "phase1" },
+  { cat: "Data / Training", name: "Gradient Accumulation and Checkpointing", url: "https://aman.ai/primers/ai/grad-accum-checkpoint", day: "Day 9", phase: "phase1" },
+  { cat: "Data / Training", name: "Parameter Efficient Fine-Tuning", url: "https://aman.ai/primers/ai/parameter-efficient-fine-tuning", day: "Day 6", phase: "phase1" },
+  { cat: "Data / Training", name: "Hypernetworks", url: "https://aman.ai/primers/ai/hypernetworks", day: "Day 9", phase: "phase1" },
+  { cat: "Data / Training", name: "Distributed Training Parallelism", url: "https://aman.ai/primers/ai/distributed-training-parallelism", day: "Day 9", phase: "phase1" },
+
+  // Models
+  { cat: "Models", name: "BERT", url: "https://aman.ai/primers/ai/bert", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "GPT", url: "https://aman.ai/primers/ai/gpt", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "CLIP", url: "https://aman.ai/primers/ai/CLIP", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "Meena", url: "https://aman.ai/primers/ai/meena", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "ChatGPT", url: "https://aman.ai/primers/ai/chatGPT", day: "Day 6", phase: "phase1" },
+  { cat: "Models", name: "GPT-4", url: "https://aman.ai/primers/ai/GPT-4", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "Llama", url: "https://aman.ai/primers/ai/LLaMA", day: "Day 6", phase: "phase1" },
+  { cat: "Models", name: "Alpaca", url: "https://aman.ai/primers/ai/alpaca", day: "Day 6", phase: "phase1" },
+  { cat: "Models", name: "Gemini", url: "https://aman.ai/primers/ai/gemini", day: "Day 13", phase: "phase2" },
+  { cat: "Models", name: "Toolformer", url: "https://aman.ai/primers/ai/toolformer", day: "Day 7", phase: "phase1" },
+  { cat: "Models", name: "Visual ChatGPT", url: "https://aman.ai/primers/ai/visualChatGPT", day: "Day 13", phase: "phase2" },
+  { cat: "Models", name: "TaskMatrix.AI", url: "https://aman.ai/primers/ai/TaskMatrix", day: "Day 13", phase: "phase2" },
+  { cat: "Models", name: "BigBird", url: "https://aman.ai/primers/ai/bigbird", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "OpenAI o1", url: "https://aman.ai/primers/ai/o1", day: "Day 5", phase: "phase1" },
+  { cat: "Models", name: "DeepSeek R1", url: "https://aman.ai/primers/ai/deepseek-R1", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "DeepSeek Janus-Pro", url: "https://aman.ai/primers/ai/deepseek-janus-pro", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "Gemma 3n", url: "https://aman.ai/primers/ai/gemma-3n", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "Gemini Embedding", url: "https://aman.ai/primers/ai/GeminiEmbedding", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "Qwen 3", url: "https://aman.ai/primers/ai/qwen3", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "Claude 4", url: "https://aman.ai/primers/ai/claude4", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "DeepSeek V3", url: "https://aman.ai/primers/ai/deepseekV3", day: "Day 14", phase: "phase2" },
+  { cat: "Models", name: "Veo 3", url: "https://aman.ai/primers/ai/Veo3", day: "Day 14", phase: "phase2" },
+
+  // NLP/LLMs
+  { cat: "NLP / LLMs", name: "Word Vectors / Embeddings", url: "https://aman.ai/primers/ai/word-vectors", day: "Day 5", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "NLP Tasks", url: "https://aman.ai/primers/ai/nlp-tasks", day: "Day 5", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Preprocessing", url: "https://aman.ai/primers/ai/preprocessing", day: "Day 5", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Tokenization", url: "https://aman.ai/primers/ai/tokenizer", day: "Day 5", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Overview of Large Language Models (LLMs)", url: "https://aman.ai/primers/ai/LLM", day: "Day 5", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Reinforcement Fine-Tuning", url: "https://aman.ai/primers/ai/reinforcement-finetuning", day: "Day 6", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Preference Optimization", url: "https://aman.ai/primers/ai/preference-optimization", day: "Day 6", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Machine Translation", url: "https://aman.ai/primers/ai/translation", day: "Day 5", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Knowledge Graphs", url: "https://aman.ai/primers/ai/knowledge-graphs", day: "Day 11", phase: "phase2" },
+  { cat: "NLP / LLMs", name: "Factuality in LLMs", url: "https://aman.ai/primers/ai/factuality-in-LLMs", day: "Day 7", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Reasoning in LLMs", url: "https://aman.ai/primers/ai/reasoning-in-LLMs", day: "Day 7", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Hallucination Detection and Mitigation", url: "https://aman.ai/primers/ai/hallucination", day: "Day 7", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "AI Text Detection Techniques", url: "https://aman.ai/primers/ai/AIDetect", day: "Day 11", phase: "phase2" },
+  { cat: "NLP / LLMs", name: "Named Entity Recognition", url: "https://aman.ai/primers/ai/ner", day: "Day 11", phase: "phase2" },
+  { cat: "NLP / LLMs", name: "Textual Entailment", url: "https://aman.ai/primers/ai/textual-entailment", day: "Day 11", phase: "phase2" },
+  { cat: "NLP / LLMs", name: "Retrieval Augmented Generation (RAG)", url: "https://aman.ai/primers/ai/RAG", day: "Day 7", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "LLM Context Length Extension", url: "https://aman.ai/primers/ai/context-length-extension", day: "Day 7", phase: "phase1" },
+  { cat: "NLP / LLMs", name: "Document Intelligence", url: "https://aman.ai/primers/ai/document-intelligence", day: "Day 11", phase: "phase2" },
+  { cat: "NLP / LLMs", name: "Code Mixing and Switching", url: "https://aman.ai/primers/ai/code-mixing-switching", day: "Day 11", phase: "phase2" },
+  { cat: "NLP / LLMs", name: "Large Language Model Ops (LLMOps)", url: "https://aman.ai/primers/ai/LLMOps", day: "Day 9", phase: "phase1" },
+
+  // Vision
+  { cat: "Vision", name: "Vision Transformer (ViT)", url: "https://aman.ai/primers/ai/vit", day: "Day 10", phase: "phase2" },
+  { cat: "Vision", name: "Receptive Field", url: "https://aman.ai/primers/ai/receptive-field", day: "Day 3", phase: "phase1" },
+  { cat: "Vision", name: "Residual Networks / Skip Connections", url: "https://aman.ai/primers/ai/skip-connections", day: "Day 3", phase: "phase1" },
+  { cat: "Vision", name: "GPT-4o Native Image Generation", url: "https://aman.ai/primers/ai/gpt4o-native-image-generation", day: "Day 10", phase: "phase2" },
+
+  // Speech
+  { cat: "Speech", name: "Speech Processing", url: "https://aman.ai/primers/ai/speech-processing", day: "Day 13", phase: "phase2" },
+
+  // Multimodal
+  { cat: "Multimodal AI / VLMs", name: "Overview of Vision-Language Models (VLMs)", url: "https://aman.ai/primers/ai/VLM", day: "Day 12", phase: "phase2" },
+  { cat: "Multimodal AI / VLMs", name: "VLM Architectures", url: "https://aman.ai/primers/ai/vision-language-models", day: "Day 12", phase: "phase2" },
+  { cat: "Multimodal AI / VLMs", name: "Computer Control", url: "https://aman.ai/primers/ai/computer-control", day: "Day 12", phase: "phase2" },
+
+  // Evaluation
+  { cat: "Evaluation", name: "Evaluation Metrics", url: "https://aman.ai/primers/ai/evaluation-metrics", day: "Day 9", phase: "phase1" },
+  { cat: "Evaluation", name: "LLM/VLM Benchmarks", url: "https://aman.ai/primers/ai/benchmarks", day: "Day 9", phase: "phase1" },
+  { cat: "Evaluation", name: "F-Beta Score", url: "https://aman.ai/primers/ai/f-beta", day: "Day 9", phase: "phase1" },
+  { cat: "Evaluation", name: "Online (A/B) Testing", url: "https://aman.ai/primers/ai/online-testing", day: "Day 9", phase: "phase1" },
+
+  // MLOps
+  { cat: "MLOps", name: "Data Drift", url: "https://aman.ai/primers/ai/drift", day: "Day 9", phase: "phase1" },
+  { cat: "MLOps", name: "MLOps Tooling", url: "https://aman.ai/primers/ai/mlops-tooling", day: "Day 9", phase: "phase1" },
+  { cat: "MLOps", name: "MLOps Testing", url: "https://aman.ai/primers/ai/mlops-testing", day: "Day 9", phase: "phase1" },
+
+  // On-Device
+  { cat: "On-Device AI", name: "Model Compression", url: "https://aman.ai/primers/ai/model-compression", day: "Day 15", phase: "phase2" },
+  { cat: "On-Device AI", name: "Personally Identifiable Information (PII)", url: "https://aman.ai/primers/ai/pii", day: "Day 15", phase: "phase2" },
+  { cat: "On-Device AI", name: "Federated Learning", url: "https://aman.ai/primers/ai/federated-learning", day: "Day 15", phase: "phase2" },
+  { cat: "On-Device AI", name: "Differential Privacy", url: "https://aman.ai/primers/ai/differential-privacy", day: "Day 15", phase: "phase2" },
+  { cat: "On-Device AI", name: "On-device Transformers", url: "https://aman.ai/primers/ai/on-device-transformers", day: "Day 15", phase: "phase2" },
+
+  // Miscellaneous
+  { cat: "Miscellaneous", name: "Ilya Sutskever's Top 30", url: "https://aman.ai/primers/ai/top-30-papers", day: "Ongoing", phase: "ongoing" },
+  { cat: "Miscellaneous", name: "GPU Architecture", url: "https://aman.ai/primers/ai/gpu-architecture", day: "Day 9", phase: "phase1" },
+  { cat: "Miscellaneous", name: "Debugging Model Training", url: "https://aman.ai/primers/ai/model-debugging", day: "Day 9", phase: "phase1" },
+  { cat: "Miscellaneous", name: "ML Runtimes", url: "https://aman.ai/primers/ai/ml-runtimes", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "Chain Rule", url: "https://aman.ai/primers/ai/chain-rule", day: "Day 2", phase: "phase1" },
+  { cat: "Miscellaneous", name: "Bayes' Theorem", url: "https://aman.ai/primers/ai/bayes-theorem", day: "Day 1", phase: "phase1" },
+  { cat: "Miscellaneous", name: "Probability Calibration", url: "https://aman.ai/primers/ai/probability-calibration", day: "Day 9", phase: "phase1" },
+  { cat: "Miscellaneous", name: "Multiclass vs. Multilabel Classification", url: "https://aman.ai/primers/ai/multiclass-vs-multilabel-classification", day: "Day 1", phase: "phase1" },
+  { cat: "Miscellaneous", name: "N-Dimensional Tensor Product", url: "https://aman.ai/primers/ai/matmul", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "PyTorch vs. TensorFlow", url: "https://aman.ai/primers/ai/pytorch-vs-tensorflow", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "Approximate Nearest Neighbors", url: "https://aman.ai/primers/ai/ann-similarity-search", day: "Day 7", phase: "phase1" },
+  { cat: "Miscellaneous", name: "Transferability Estimation", url: "https://aman.ai/primers/ai/transferability-estimation", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "TensorBoard", url: "https://aman.ai/primers/ai/tensorboard", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "CNNs for Text Classification", url: "https://aman.ai/primers/ai/cnns-for-text-classification", day: "Day 3", phase: "phase1" },
+  { cat: "Miscellaneous", name: "HMMs and Naive Bayes", url: "https://aman.ai/primers/ai/hmm-and-naive-bayes", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "Maximum Entropy Markov Models", url: "https://aman.ai/primers/ai/maximum-entropy-markov-models-and-logistic-reg", day: "Day 16", phase: "phase2" },
+  { cat: "Miscellaneous", name: "Conditional Random Fields", url: "https://aman.ai/primers/ai/conditional-random-fields", day: "Day 16", phase: "phase2" },
+
+  // Project Planning
+  { cat: "Project Planning", name: "Objectives and Key Results (OKRs)", url: "https://aman.ai/primers/ai/okr", day: "Ongoing", phase: "ongoing" },
+  { cat: "Project Planning", name: "RICE Framework", url: "https://aman.ai/primers/ai/rice-framework", day: "Ongoing", phase: "ongoing" },
+  { cat: "Project Planning", name: "Gantt Charts", url: "https://aman.ai/primers/ai/gantt-charts", day: "Ongoing", phase: "ongoing" },
+  { cat: "Project Planning", name: "Project Management", url: "https://aman.ai/primers/ai/project-management", day: "Ongoing", phase: "ongoing" },
+
+  // Hyperparameters
+  { cat: "Hyperparameters", name: "Hyperparameter Tuning", url: "https://aman.ai/primers/ai/hyperparameter-tuning", day: "Day 2", phase: "phase1" },
+  { cat: "Hyperparameters", name: "Hyperparameter Logging", url: "https://aman.ai/primers/ai/hyperparameter-logging", day: "Day 9", phase: "phase1" },
+
+  // Practice
+  { cat: "Practice", name: "Interview Questions", url: "https://aman.ai/primers/ai/interview", day: "Ongoing", phase: "ongoing" },
+];
+
+let currentFilter = 'all';
+const STORAGE_KEY = 'ai-tracker-v1';
+
+function loadState() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch { return {}; }
+}
+function saveState(state) {
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+}
+
+function getTopicId(topic) {
+  return topic.name.replace(/\s+/g, '-').toLowerCase();
+}
+
+function renderAll() {
+  const state = loadState();
+  const searchVal = document.getElementById('search').value.toLowerCase();
+
+  const cats = [...new Set(topics.map(t => t.cat))];
+  const container = document.getElementById('topics-container');
+  container.innerHTML = '';
+
+  let totalRead = 0, totalNotes = 0, totalContent = 0, totalVisible = 0;
+
+  cats.forEach(cat => {
+    const catTopics = topics.filter(t => t.cat === cat);
+    let visibleTopics = catTopics.filter(t => {
+      const id = getTopicId(t);
+      const s = state[id] || {};
+      if (searchVal && !t.name.toLowerCase().includes(searchVal)) return false;
+      if (currentFilter === 'unread') return !s.read;
+      if (currentFilter === 'read') return s.read;
+      if (currentFilter === 'no-notes') return !s.notes;
+      if (currentFilter === 'no-content') return !s.content;
+      if (currentFilter === 'phase1') return t.phase === 'phase1';
+      if (currentFilter === 'phase2') return t.phase === 'phase2';
+      return true;
+    });
+
+    if (visibleTopics.length === 0) return;
+
+    const catRead = catTopics.filter(t => (state[getTopicId(t)] || {}).read).length;
+    totalVisible += visibleTopics.length;
+    totalRead += catTopics.filter(t => (state[getTopicId(t)] || {}).read).length;
+    totalNotes += catTopics.filter(t => (state[getTopicId(t)] || {}).notes).length;
+    totalContent += catTopics.filter(t => (state[getTopicId(t)] || {}).content).length;
+
+    const catDiv = document.createElement('div');
+    catDiv.className = 'category';
+    catDiv.innerHTML = `
+      <div class="category-header" onclick="toggleCat(this)">
+        <span class="collapse-icon">▼</span>
+        <span class="category-title">${cat}</span>
+        <span class="category-count">${catTopics.length} topics</span>
+        <span class="category-progress">${catRead}/${catTopics.length} read</span>
+      </div>
+      <div class="col-header">
+        <span>Topic</span>
+        <span>Read</span>
+        <span>Notes</span>
+        <span>Content</span>
+        <span class="day-col">Day</span>
+      </div>
+      <div class="topics-list" id="list-${cat.replace(/\W/g,'-')}">
+        ${visibleTopics.map(t => {
+          const id = getTopicId(t);
+          const s = state[id] || {};
+          const rowClass = s.read && s.notes && s.content ? 'done-all' : s.read ? 'done-read' : '';
+          return `<div class="topic-row ${rowClass}" id="row-${id}">
+            <div class="topic-name"><a href="${t.url}" target="_blank">${t.name}</a></div>
+            <div class="check-cell"><input type="checkbox" ${s.read ? 'checked' : ''} onchange="toggle('${id}','read',this)" title="Mark as Read"></div>
+            <div class="check-cell"><input type="checkbox" class="notes-check" ${s.notes ? 'checked' : ''} onchange="toggle('${id}','notes',this)" title="Notes Written"></div>
+            <div class="check-cell"><input type="checkbox" class="content-check" ${s.content ? 'checked' : ''} onchange="toggle('${id}','content',this)" title="Content Published"></div>
+            <div class="day-col"><span class="day-badge ${t.phase}">${t.day}</span></div>
+          </div>`;
+        }).join('')}
+      </div>
+    `;
+    container.appendChild(catDiv);
+  });
+
+  // Update stats
+  const total = topics.length;
+  document.getElementById('stat-read').textContent = totalRead;
+  document.getElementById('stat-read-sub').textContent = `of ${total} total`;
+  document.getElementById('stat-notes').textContent = totalNotes;
+  document.getElementById('stat-content').textContent = totalContent;
+  const pct = total ? Math.round((totalRead / total) * 100) : 0;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function toggle(id, field, el) {
+  const state = loadState();
+  if (!state[id]) state[id] = {};
+  state[id][field] = el.checked;
+  saveState(state);
+  // Update row class
+  const row = document.getElementById('row-' + id);
+  if (row) {
+    const s = state[id];
+    row.className = 'topic-row ' + (s.read && s.notes && s.content ? 'done-all' : s.read ? 'done-read' : '');
+  }
+  // Update stats
+  renderStats();
+}
+
+function renderStats() {
+  const state = loadState();
+  const total = topics.length;
+  const totalRead = topics.filter(t => (state[getTopicId(t)] || {}).read).length;
+  const totalNotes = topics.filter(t => (state[getTopicId(t)] || {}).notes).length;
+  const totalContent = topics.filter(t => (state[getTopicId(t)] || {}).content).length;
+  document.getElementById('stat-read').textContent = totalRead;
+  document.getElementById('stat-read-sub').textContent = `of ${total} total`;
+  document.getElementById('stat-notes').textContent = totalNotes;
+  document.getElementById('stat-content').textContent = totalContent;
+  const pct = total ? Math.round((totalRead / total) * 100) : 0;
+  document.getElementById('progress-pct').textContent = pct + '%';
+  document.getElementById('progress-fill').style.width = pct + '%';
+}
+
+function toggleCat(header) {
+  header.parentElement.classList.toggle('collapsed');
+}
+
+function setFilter(f, btn) {
+  currentFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderAll();
+}
+
+function filterTopics() { renderAll(); }
+
+renderAll();
+</script>
+</body>
+</html>
