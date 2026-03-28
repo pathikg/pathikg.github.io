@@ -1,229 +1,950 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pathik Ghugare - Machine Learning Engineer</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pathik Ghugare — ML Engineer</title>
+<meta name="description" content="Machine Learning Engineer specializing in LLMs, VLMs, and document intelligence. Building production ML systems at Parspec.io.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=IBM+Plex+Mono:ital,wght@0,300;0,400;0,500;1,300&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:          #07090f;
+  --bg2:         #0b0e18;
+  --surface:     #0f1320;
+  --surface2:    #161b2e;
+  --border:      #1c2238;
+  --border2:     #273050;
+  --orange:      #f97316;
+  --orange-glow: rgba(249,115,22,0.12);
+  --orange-dim:  rgba(249,115,22,0.07);
+  --orange-mid:  rgba(249,115,22,0.22);
+  --sky:         #38bdf8;
+  --sky-dim:     rgba(56,189,248,0.08);
+  --sky-mid:     rgba(56,189,248,0.18);
+  --text:        #e0e6f5;
+  --text2:       #8a96b8;
+  --text3:       #404870;
+  --mono:        'IBM Plex Mono', monospace;
+  --sans:        'Instrument Sans', sans-serif;
+  --display:     'Syne', sans-serif;
+  --ease:        cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── GRID BACKGROUND ─── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 52px 52px;
+  opacity: 0.35;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ─── ORB GLOWS ─── */
+.orb {
+  position: fixed; border-radius: 50%;
+  filter: blur(100px); pointer-events: none; z-index: 0;
+  animation: orb-drift 20s ease-in-out infinite alternate;
+}
+.orb-1 { width: 700px; height: 700px; background: rgba(249,115,22,0.055); top: -250px; right: -150px; animation-delay: 0s; }
+.orb-2 { width: 600px; height: 600px; background: rgba(56,189,248,0.04);  bottom: -200px; left: -100px;  animation-delay: -10s; }
+@keyframes orb-drift {
+  from { transform: translate(0, 0) scale(1); }
+  to   { transform: translate(40px, -40px) scale(1.1); }
+}
+
+/* ─── NAV ─── */
+nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 18px 56px;
+  background: rgba(7, 9, 15, 0.75);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: var(--display);
+  font-weight: 800; font-size: 1rem;
+  letter-spacing: -0.01em; color: var(--text);
+  text-decoration: none;
+}
+.nav-logo em { color: var(--orange); font-style: normal; }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a {
+  font-family: var(--mono); font-size: 0.72rem;
+  color: var(--text3); text-decoration: none;
+  letter-spacing: 0.08em; text-transform: uppercase;
+  transition: color 0.2s;
+}
+.nav-links a:hover { color: var(--orange); }
+.nav-cta {
+  font-family: var(--mono); font-size: 0.72rem;
+  color: var(--orange); text-decoration: none;
+  border: 1px solid var(--orange-mid);
+  padding: 7px 18px; border-radius: 4px;
+  letter-spacing: 0.06em;
+  transition: all 0.2s;
+}
+.nav-cta:hover { background: var(--orange); color: var(--bg); }
+
+/* ─── HERO ─── */
+.hero {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 56px 80px;
+}
+.hero-inner {
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: 1.1fr 0.9fr;
+  gap: 80px; align-items: center;
+}
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.68rem;
+  color: var(--orange); letter-spacing: 0.12em; text-transform: uppercase;
+  background: var(--orange-dim); border: 1px solid var(--orange-mid);
+  padding: 6px 14px; border-radius: 100px;
+  margin-bottom: 28px; width: fit-content;
+}
+.hero-badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--orange);
+  animation: blink 2s ease-in-out infinite;
+}
+@keyframes blink {
+  0%, 100% { opacity: 1; } 50% { opacity: 0.3; }
+}
+
+.hero-name {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(3.2rem, 5.5vw, 5.8rem);
+  line-height: 0.95; letter-spacing: -0.03em;
+  color: var(--text); margin-bottom: 20px;
+}
+.hero-name .line2 { color: var(--orange); }
+
+.hero-role {
+  font-family: var(--mono); font-size: 0.9rem;
+  color: var(--text2); margin-bottom: 28px;
+  letter-spacing: 0.02em; line-height: 1.5;
+}
+.hero-role .co { color: var(--sky); }
+
+.hero-desc {
+  font-size: 0.97rem; color: var(--text2);
+  line-height: 1.75; max-width: 500px; margin-bottom: 44px;
+}
+
+.hero-ctas { display: flex; gap: 12px; flex-wrap: wrap; }
+.btn-primary {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--bg); background: var(--orange);
+  padding: 12px 26px; border-radius: 4px;
+  text-decoration: none; letter-spacing: 0.05em;
+  display: inline-flex; align-items: center; gap: 8px;
+  transition: all 0.2s var(--ease);
+}
+.btn-primary:hover { background: #ea6c0e; transform: translateY(-2px); }
+.btn-ghost {
+  font-family: var(--mono); font-size: 0.78rem;
+  color: var(--text2); border: 1px solid var(--border2);
+  padding: 12px 26px; border-radius: 4px;
+  text-decoration: none; letter-spacing: 0.05em;
+  transition: all 0.2s var(--ease);
+}
+.btn-ghost:hover { color: var(--text); border-color: var(--text3); transform: translateY(-2px); }
+
+/* Stats panel */
+.hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px; padding: 26px 24px;
+  position: relative; overflow: hidden;
+  transition: border-color 0.3s, transform 0.3s;
+  cursor: default;
+}
+.stat-card::before {
+  content: ''; position: absolute; inset: 0;
+  opacity: 0; transition: opacity 0.3s;
+}
+.stat-card.orange::before { background: linear-gradient(135deg, var(--orange-glow), transparent 70%); }
+.stat-card.blue::before   { background: linear-gradient(135deg, rgba(56,189,248,0.1), transparent 70%); }
+.stat-card:hover { border-color: var(--border2); transform: translateY(-3px); }
+.stat-card:hover::before { opacity: 1; }
+
+.stat-num {
+  font-family: var(--display); font-weight: 800;
+  font-size: 2.8rem; line-height: 1;
+  margin-bottom: 10px;
+  position: relative; z-index: 1;
+}
+.stat-card.orange .stat-num { color: var(--orange); }
+.stat-card.blue   .stat-num { color: var(--sky); }
+.stat-lbl {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: var(--text3); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 4px;
+  position: relative; z-index: 1;
+}
+.stat-sub {
+  font-size: 0.78rem; color: var(--text2); line-height: 1.4;
+  position: relative; z-index: 1;
+}
+
+/* ─── SECTION BASE ─── */
+.section-wrap {
+  position: relative; z-index: 1;
+  padding: 96px 56px;
+  max-width: 1200px; margin: 0 auto;
+}
+.section-rule {
+  position: relative; z-index: 1;
+  width: 100%; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 15%, var(--border) 85%, transparent);
+}
+.sec-eyebrow {
+  font-family: var(--mono); font-size: 0.68rem;
+  color: var(--orange); letter-spacing: 0.15em;
+  text-transform: uppercase; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 10px;
+}
+.sec-eyebrow::after {
+  content: ''; width: 32px; height: 1px;
+  background: var(--orange); opacity: 0.5;
+}
+.sec-title {
+  font-family: var(--display); font-weight: 700;
+  font-size: clamp(2rem, 3.5vw, 3rem);
+  color: var(--text); letter-spacing: -0.025em;
+  line-height: 1.1; margin-bottom: 56px;
+}
+
+/* ─── EXPERIENCE ─── */
+.exp-item {
+  display: grid; grid-template-columns: 220px 1fr;
+  gap: 48px; padding: 44px 0;
+  border-bottom: 1px solid var(--border);
+}
+.exp-item:first-child { border-top: 1px solid var(--border); }
+
+.exp-side { padding-top: 2px; }
+.exp-period {
+  font-family: var(--mono); font-size: 0.68rem;
+  color: var(--text3); letter-spacing: 0.04em;
+  margin-bottom: 12px;
+}
+.exp-co {
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.15rem; color: var(--text);
+  margin-bottom: 6px;
+}
+.exp-badge {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: var(--sky); background: var(--sky-dim);
+  border: 1px solid var(--sky-mid);
+  padding: 3px 9px; border-radius: 4px;
+  width: fit-content; letter-spacing: 0.06em;
+  margin-bottom: 6px;
+}
+.exp-loc {
+  font-family: var(--mono); font-size: 0.67rem;
+  color: var(--text3); margin-top: 4px;
+}
+
+.exp-role {
+  font-family: var(--display); font-weight: 600;
+  font-size: 1.25rem; color: var(--text);
+  margin-bottom: 20px;
+}
+.exp-chips { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 24px; }
+.chip {
+  font-family: var(--mono); font-size: 0.66rem;
+  background: var(--orange-dim); border: 1px solid var(--orange-mid);
+  color: var(--orange); padding: 4px 11px; border-radius: 4px;
+  letter-spacing: 0.04em;
+}
+.exp-list { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.exp-list li {
+  font-size: 0.89rem; color: var(--text2);
+  padding-left: 20px; position: relative; line-height: 1.65;
+}
+.exp-list li::before {
+  content: '—'; position: absolute; left: 0;
+  color: var(--text3); font-family: var(--mono);
+}
+.exp-list strong { color: var(--text); font-weight: 600; }
+.m { font-family: var(--mono); color: var(--orange); font-size: 0.85em; }
+.mb { font-family: var(--mono); color: var(--sky); font-size: 0.85em; }
+
+/* ─── PROJECTS ─── */
+.projects-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.proj-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 34px;
+  position: relative; overflow: hidden;
+  transition: all 0.3s var(--ease);
+}
+.proj-card::after {
+  content: ''; position: absolute; inset: 0;
+  border-radius: 16px;
+  background: linear-gradient(135deg, var(--orange-glow) 0%, transparent 60%);
+  opacity: 0; transition: opacity 0.3s;
+}
+.proj-card:hover { border-color: rgba(249,115,22,0.25); transform: translateY(-5px); }
+.proj-card:hover::after { opacity: 1; }
+.proj-n {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: var(--text3); letter-spacing: 0.1em;
+  margin-bottom: 14px;
+}
+.proj-name {
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.45rem; color: var(--text);
+  margin-bottom: 12px; position: relative; z-index: 1;
+}
+.proj-desc {
+  font-size: 0.86rem; color: var(--text2);
+  line-height: 1.7; margin-bottom: 24px;
+  position: relative; z-index: 1;
+}
+.proj-tags { display: flex; gap: 8px; flex-wrap: wrap; position: relative; z-index: 1; }
+.ptag {
+  font-family: var(--mono); font-size: 0.63rem;
+  color: var(--text3); background: var(--surface2);
+  border: 1px solid var(--border); padding: 4px 10px;
+  border-radius: 4px; letter-spacing: 0.04em;
+}
+
+/* ─── SKILLS ─── */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.skill-group {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 12px; padding: 26px;
+  transition: border-color 0.2s;
+}
+.skill-group:hover { border-color: var(--border2); }
+.sg-label {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: var(--orange); text-transform: uppercase;
+  letter-spacing: 0.12em; margin-bottom: 16px;
+  padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.sg-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.stag {
+  font-family: var(--mono); font-size: 0.7rem;
+  color: var(--text2); background: var(--surface2);
+  border: 1px solid var(--border); padding: 5px 11px;
+  border-radius: 6px; letter-spacing: 0.03em;
+  transition: all 0.15s;
+}
+.stag:hover { color: var(--text); border-color: var(--border2); }
+
+/* ─── EDUCATION ─── */
+.edu-card {
+  background: var(--surface); border: 1px solid var(--border);
+  border-radius: 16px; padding: 44px 48px;
+  display: flex; justify-content: space-between;
+  align-items: center; gap: 40px;
+}
+.edu-deg {
+  font-family: var(--display); font-weight: 700;
+  font-size: 1.6rem; color: var(--text); margin-bottom: 8px;
+}
+.edu-school { font-size: 0.92rem; color: var(--text2); margin-bottom: 4px; }
+.edu-meta {
+  font-family: var(--mono); font-size: 0.7rem;
+  color: var(--text3); margin-bottom: 12px;
+}
+.edu-course {
+  font-size: 0.82rem; color: var(--text2);
+  font-style: italic;
+}
+.edu-gpa-wrap { text-align: center; flex-shrink: 0; }
+.edu-gpa {
+  font-family: var(--display); font-weight: 800;
+  font-size: 3.5rem; color: var(--orange); line-height: 1;
+}
+.edu-gpa-lbl {
+  font-family: var(--mono); font-size: 0.62rem;
+  color: var(--text3); letter-spacing: 0.1em;
+  text-transform: uppercase; margin-top: 6px;
+}
+
+/* ─── CONTACT ─── */
+.contact-wrap {
+  position: relative; z-index: 1;
+  background: var(--surface);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 100px 56px;
+  text-align: center;
+}
+.contact-title {
+  font-family: var(--display); font-weight: 800;
+  font-size: clamp(2.8rem, 5.5vw, 5rem);
+  color: var(--text); letter-spacing: -0.03em;
+  line-height: 1.05; margin-bottom: 20px;
+}
+.contact-title em { color: var(--orange); font-style: normal; }
+.contact-sub {
+  font-size: 0.97rem; color: var(--text2); margin-bottom: 44px;
+}
+.contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+.clink {
+  display: flex; align-items: center; gap: 8px;
+  font-family: var(--mono); font-size: 0.77rem;
+  color: var(--text2); text-decoration: none;
+  border: 1px solid var(--border2); padding: 12px 22px;
+  border-radius: 8px; letter-spacing: 0.03em;
+  transition: all 0.2s;
+}
+.clink:hover { color: var(--orange); border-color: var(--orange-mid); background: var(--orange-dim); }
+
+/* ─── FOOTER ─── */
+footer {
+  position: relative; z-index: 1;
+  padding: 28px 56px;
+  display: flex; justify-content: space-between; align-items: center;
+  border-top: 1px solid var(--border);
+}
+.footer-logo {
+  font-family: var(--display); font-weight: 700;
+  font-size: 0.88rem; color: var(--text3);
+}
+.footer-logo em { color: var(--orange); font-style: normal; }
+.footer-note {
+  font-family: var(--mono); font-size: 0.67rem;
+  color: var(--text3); letter-spacing: 0.05em;
+}
+.footer-links { display: flex; gap: 20px; }
+.footer-links a {
+  font-family: var(--mono); font-size: 0.67rem;
+  color: var(--text3); text-decoration: none;
+  letter-spacing: 0.05em; transition: color 0.2s;
+}
+.footer-links a:hover { color: var(--orange); }
+
+/* ─── SCROLL REVEAL ─── */
+.reveal {
+  opacity: 0; transform: translateY(28px);
+  transition: opacity 0.65s var(--ease), transform 0.65s var(--ease);
+}
+.reveal.in { opacity: 1; transform: translateY(0); }
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+
+/* ─── CANVAS ─── */
+canvas {
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  opacity: 0.35;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 960px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  .hero { padding: 100px 24px 60px; }
+  .hero-inner { grid-template-columns: 1fr; gap: 48px; }
+  .section-wrap { padding: 64px 24px; }
+  .exp-item { grid-template-columns: 1fr; gap: 20px; }
+  .projects-grid { grid-template-columns: 1fr; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .edu-card { flex-direction: column; text-align: center; padding: 32px 24px; }
+  .contact-wrap { padding: 64px 24px; }
+  footer { padding: 24px; flex-direction: column; gap: 12px; text-align: center; }
+  .footer-links { justify-content: center; }
+}
+@media (max-width: 600px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-stats { grid-template-columns: 1fr 1fr; }
+}
+
+</style>
 </head>
-
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="#about">About</a></li>
-                <li><a href="#experience">Experience</a></li>
-                <li><a href="#projects">Projects</a></li>
-                <li><a href="#blogs">Blogs</a></li>
-                <li><a href="#skills">Skills</a></li>
-                <li><a href="#education">Education</a></li>
-                <li><a href="#contact">Contact</a></li>
-                <li><a href="https://drive.google.com/file/d/1g7eW-uAuk6j7JDY5y-vvLcyiK_rT8Smc/view">Resume</a>
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <div class="header-content">
-            <h1>Pathik Ghugare</h1>
-            <a href="https://github.com/pathikg/">GitHub</a>
-            <a href="https://www.linkedin.com/in/pathik-ghugare/">Linkedin</a>
-            <!-- Placeholder for future profile picture -->
-            <!-- <img src="path_to_your_image.jpg" alt="Pathik Ghugare" class="profile-pic"> -->
-        </div>
-        <section id="about">
-            <h2>About Me</h2>
-            <p>Machine Learning Engineer with expertise in object detection, natural language processing, and cloud
-                deployment. Passionate about leveraging AI to solve complex problems and improve efficiency. My
-                interests span across various domains of AI, including:</p>
-            <ul>
-                <li>Computer Vision</li>
-                <li>Natural Language Processing (NLP)</li>
-                <li>Large Language Models (LLMs)</li>
-                <li>AI Agents</li>
-                <li>Deep Learning</li>
-                <li>Cloud-based AI Solutions</li>
-            </ul>
-        </section>
+<canvas id="net"></canvas>
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
 
-        <section id="experience">
-            <h2>Experience</h2>
-            <div class="experience-item">
-                <h3>Machine Learning Engineer - Parspec.io </h3>
-                <p class="date">Oct 2024-Present | Bengaluru, Karnataka</p>
-                <ul>
-                    <li>Cooking Models</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3>Machine Learning Engineer - Pibit.ai (YC 21)</h3>
-                <p class="date">Jun 2023-Oct 2024 | Bengaluru, Karnataka</p>
-                <ul>
-                    <li>Engineered the Loss Run product through strategic label finalization, annotation planning, and
-                        Object Detection model training (YOLO+OCR), improving processing speed by 40% and reducing
-                        manual review time by 50%.</li>
-                    <li>Automated data preparation and model training pipelines on Azure Machine Learning, reducing data
-                        preparation time from 3-4 hours to 30-45 minutes. Implemented versioning and logging for data
-                        assets.</li>
-                    <li>Optimized YOLO model performance by 35% through extensive experimentation with dataset
-                        variations, model architectures, and hyperparameter tuning, enhancing object detection accuracy
-                        in production systems.</li>
-                    <li>Deployed models as a service using on AWS CodePipeline on AWS EKS and Lambda with 300ms latency.
-                    </li>
-                    <li>Developed 3 identity services by integrating YOLO and GPT-3.5, achieving 0.85 mAP and 0.95
-                        accuracy at the document level using small sized object detection models.</li>
-                    <li>Orchestrated the experimentation and testing of GPT-4V capabilities for Document Extraction;
-                        directed 4 interns in rapid experimentation, enhancing duration 25%.</li>
-                    <li>Boosted existing system efficiency through strategic implementation of advanced prompting
-                        techniques, including zero-shot, few-shot, chain-of-thought, and sequential prompting
-                        methodologies.</li>
-                </ul>
-            </div>
-            <div class="experience-item">
-                <h3>Deep Learning Intern - Pibit.ai (YC 21)</h3>
-                <p class="date">August 2022-Jun 2023 | Bengaluru, Karnataka</p>
-                <ul>
-                    <li>Enhanced an existing object detection model (YOLOv5) by implementing image weight sampling,
-                        improving the mAP score from 0.62 to 0.74.</li>
-                    <li>Integrated Azure MLFlow for better experiment as well as model tracking and built an
-                        auto-annotation pipeline using CVAT data annotation tool.</li>
-                    <li>Trained an OCR-free document model (DONUT) with an accuracy of TED 0.81.</li>
-                    <li>Implemented multiple YOLO models for identity services on AWS Lambda with mAP score of 0.9.</li>
-                    <li>Worked on template standardization to handle imbalances and data drift for multiple document
-                        templates.</li>
-                </ul>
-            </div>
-        </section>
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">P<em>.</em>Ghugare</a>
+  <ul class="nav-links">
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="mailto:pathikghugare13@gmail.com" class="nav-cta">Say hello →</a>
+</nav>
 
-        <section id="projects">
-            <h2>Projects</h2>
-            <div class="project-item">
-                <h3>
-                    <a href="https://github.com/pathikg/DogLLaMA" target="_blank">DogLLaMA</a>
-                    <!-- <a href="https://huggingface.co/your-username/DogLLaMA" class="live-demo" target="_blank">Live Demo</a> -->
-                </h3>
-                <ul>
-                    <li>Fine-tuned the LLaMA2-7b language model on an English text dataset translated into Dog
-                        Style
-                        Messages using GPT-3.5-turbo, creating a unique and playful model called "DogLLaMA-7b" in llama2
-                        compatible format.</li>
-                    <li>Published the <a href="https://huggingface.co/datasets/pathikg/DogLLAMA-small"
-                            target="_blank">DogLLAMA
-                            dataset</a> on Hugging Face.</li>
-                    <li>For model fine-tuning, utilized PEFT with LoRa and BitsAndBytes for quantization.
-                    </li>
-                </ul>
-            </div>
-            <div class="project-item">
-                <h3>
-                    <h4><a href="https://github.com/pathikg/BudgetGPT" target="_blank">BudgetGPT</a></h4>
-                    <!-- <a href="https://your-streamlit-app-url.com" class="live-demo" target="_blank">Live Demo</a> -->
-                </h3>
-                <ul>
-                    <li>Engineering Budget QA Agent using GPT4o-mini and RAG technologies for the Indian budget-related
-                        inquiries.</li>
-                    <li>Optimized data retrieval by implementing an in-memory vectorstore for OpenAI Embeddings of each
-                        PDF chunk.</li>
-                    <li>Utilized the concept of tools to use different vector indexes based on the user query.</li>
-                    <li>Orchestrated an Agentic RAG system using LlamaIndex and <a
-                            href="https://budgetgpt.streamlit.app" target="_blank">deployed</a> on streamlit.</li>
-                </ul>
-            </div>
-        </section>
+<!-- ── HERO ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <div>
+      <div class="hero-badge">
+        <span class="hero-badge-dot"></span>
+        Available · Bengaluru, India
+      </div>
+      <h1 class="hero-name">
+        Pathik<br><span class="line2">Ghugare</span>
+      </h1>
+      <p class="hero-role">
+        ML Engineer 2 at <span class="co">Parspec.io</span><br>
+        LLMs · VLMs · Document Intelligence
+      </p>
+      <p class="hero-desc">
+        I build production ML systems that ship — combining OCR, transformers, and LLMs to solve hard document understanding problems. Real accuracy gains, real cost savings.
+      </p>
+      <div class="hero-ctas">
+        <a href="https://linkedin.com/in/pathik-ghugare" target="_blank" class="btn-primary">
+          LinkedIn ↗
+        </a>
+        <a href="https://github.com/pathikg" target="_blank" class="btn-ghost">GitHub</a>
+        <a href="#experience" class="btn-ghost">View work ↓</a>
+      </div>
+    </div>
 
-        <section id="blogs">
-            <h2>Blogs</h2>
-            <div class="blog-list">
-                <div class="blog-item">
-                    <h3><a href="https://www.youtube.com/watch?v=xvFZjo5PgG0">Coming soon...</a></h3>
-                    <p>Stay tuned :)</p>
-                </div>
-                <!-- More blog entries can be added here in the future -->
-            </div>
-        </section>
+    <div class="hero-stats">
+      <div class="stat-card orange reveal reveal-delay-1">
+        <div class="stat-lbl">Extraction Accuracy</div>
+        <div class="stat-num" data-target="95" data-suffix="%">0%</div>
+        <div class="stat-sub">Row-level table parsing across 6 formats</div>
+      </div>
+      <div class="stat-card blue reveal reveal-delay-2">
+        <div class="stat-lbl">Cost Reduction</div>
+        <div class="stat-num" data-target="67" data-suffix="%">0%</div>
+        <div class="stat-sub">Latency &amp; cost via Table-Transformer</div>
+      </div>
+      <div class="stat-card orange reveal reveal-delay-2">
+        <div class="stat-lbl">Textract Savings</div>
+        <div class="stat-num" data-target="5" data-suffix="×">0×</div>
+        <div class="stat-sub">Open-source OCR replacing AWS Textract</div>
+      </div>
+      <div class="stat-card blue reveal reveal-delay-3">
+        <div class="stat-lbl">vLLM Throughput</div>
+        <div class="stat-num" data-target="150" data-suffix=" tok/s">0</div>
+        <div class="stat-sub">Achieved via pipeline-level optimizations</div>
+      </div>
+    </div>
+  </div>
+</div>
 
-        <section id="skills">
-            <h2>Skills</h2>
-            <div class="skills-category">
-                <h3>Frameworks</h3>
-                <div class="skills-list">
-                    <span class="skill">HuggingFace</span>
-                    <span class="skill">Langchain</span>
-                    <span class="skill">Llamaindex</span>
-                    <span class="skill">Haystack</span>
-                    <span class="skill">PyTorch</span>
-                    <span class="skill">Tensorflow</span>
-                    <span class="skill">Keras</span>
-                    <span class="skill">Numpy</span>
-                    <span class="skill">Pandas</span>
-                </div>
-            </div>
-            <div class="skills-category">
-                <h3>Tools</h3>
-                <div class="skills-list">
-                    <span class="skill">Git</span>
-                    <span class="skill">GitHub</span>
-                    <span class="skill">VSCode</span>
-                    <span class="skill">Cursor</span>
-                    <span class="skill">LMStudio</span>
-                    <span class="skill">Ollama</span>
-                    <span class="skill">Google Colab</span>
-                </div>
-            </div>
-            <div class="skills-category">
-                <h3>Infrastructure</h3>
-                <div class="skills-list">
-                    <span class="skill">Kubernetes</span>
-                    <span class="skill">Helm</span>
-                    <span class="skill">Docker</span>
-                </div>
-            </div>
-            <div class="skills-category">
-                <h3>Cloud Services</h3>
-                <div class="skills-list">
-                    <span class="skill">AWS</span>
-                    <span class="skill">Azure</span>
-                    <span class="skill">GCP</span>
-                    <span class="skill">Runpod</span>
-                </div>
-            </div>
-            <div class="skills-category">
-                <h3>Databases</h3>
-                <div class="skills-list">
-                    <span class="skill">MySQL</span>
-                    <span class="skill">PostgreSQL</span>
-                    <span class="skill">DynamoDB</span>
-                </div>
-            </div>
-        </section>
+<div class="section-rule"></div>
 
-        <section id="education">
-            <h2>Education</h2>
-            <div class="education-item">
-                <h3>B.Tech in Computer Engineering</h3>
-                <p>K.J.Somaiya College Of Engineering, Mumbai, Maharashtra</p>
-                <p>August 2019-May 2023 | CGPA: <b>9.35</b></p>
-                <p>Coursework: Data Mining and Analysis, Software Engineering, Operating Systems, Artificial
-                    Intelligence</p>
-            </div>
-        </section>
+<!-- ── EXPERIENCE ── -->
+<div class="section-wrap" id="experience">
+  <div class="sec-eyebrow">Work History</div>
+  <h2 class="sec-title">Experience</h2>
 
-        <section id="contact">
-            <h2>Contact Me</h2>
-            <p>If you'd like to get in touch, feel free to reach out via email or connect with me on LinkedIn.</p>
-            <p><strong>Email: </strong> <a href="mailto:pathikghugare13@gmail.com">pathikghugare13@gmail.com</a></p>
-            <p><strong>Linkedin: </strong> <a href="https://www.linkedin.com/in/pathik-ghugare/">Pathik Ghugare</a></p>
-            <p><strong>X or Twitter: </strong><a href="https://www.x.com/pathikghugare/">pathikghugare</a></p>
-        </section>
+  <!-- Parspec -->
+  <div class="exp-item reveal">
+    <div class="exp-side">
+      <div class="exp-period">Oct 2024 — Present</div>
+      <div class="exp-co">Parspec.io</div>
+      <div class="exp-badge">AI/ML · SaaS</div>
+      <div class="exp-loc">Bengaluru, Karnataka</div>
+    </div>
+    <div>
+      <div class="exp-role">Machine Learning Engineer 2</div>
+      <div class="exp-chips">
+        <span class="chip">Table Parsing</span>
+        <span class="chip">VLMs / OCR</span>
+        <span class="chip">BERT</span>
+        <span class="chip">DSPy</span>
+        <span class="chip">vLLM</span>
+        <span class="chip">AWS EKS</span>
+        <span class="chip">LLM-as-Judge</span>
+      </div>
+      <ul class="exp-list">
+        <li>Built a <strong>multi-stage table parsing system</strong> combining OCR, BERT classification, and LLM-based parsing — achieving <span class="m">95% row-level extraction accuracy</span> across six complex table formats.</li>
+        <li>Fine-tuned <strong>Table-Transformer</strong> for table detection, replacing AWS Textract and cutting latency &amp; cost by <span class="m">67%</span>, achieving <span class="m">~86% mAP (0.5–0.95)</span> in production.</li>
+        <li>Conducted RCA on document pipeline; replaced Textract dependency with open-source OCR, reducing costs by <span class="m">5×</span>.</li>
+        <li>Deployed <strong>Dots.OCR via vLLM</strong> — improved parsing accuracy from <span class="m">50% → 75%</span> and throughput from <span class="m">60 → 150 tok/s</span> through model and pipeline-level optimizations.</li>
+        <li>Leveraged <strong>DSPy</strong> for automated prompt optimization, reducing iterative engineering effort by <span class="m">80%</span> and accelerating LLM integration across parsing workflows.</li>
+        <li>Built <strong>LLM Council pipeline</strong> (adapted from Karpathy's implementation) for auto-generating table parsing datasets — reduced annotation costs by <span class="m">50%</span> and effort by <span class="m">60%</span>.</li>
+        <li>Improved BERT column header detection from <span class="m">89% → 95%</span> via a [SEP] token strategy across multiple domains.</li>
+        <li>Built table complexity classifier (Gemini-2.5-Pro annotation + BERT fine-tuning) achieving <span class="m">95% accuracy</span> at <span class="m">0.5s latency</span>.</li>
+        <li>Applied <strong>LLM-as-Judge</strong> framework to evaluate data quality pre-annotation; evaluated VLMs (LightonOCR, DeepSeekOCR, PaddleOCR) and LLM parsers (GPT-5, Claude, Gemini, Kimi).</li>
+        <li>Led 2 engineers end-to-end on RFQ extraction; designed CI/CD via GitHub Actions, ArgoCD, and OpenSearch for logging. Managed deployments on <strong>AWS EKS</strong>.</li>
+      </ul>
+    </div>
+  </div>
 
-    </main>
+  <!-- Pibit -->
+  <div class="exp-item reveal">
+    <div class="exp-side">
+      <div class="exp-period">Aug 2022 — Sept 2024</div>
+      <div class="exp-co">Pibit.ai</div>
+      <div class="exp-badge">YC W21</div>
+      <div class="exp-loc">Bengaluru, Karnataka</div>
+    </div>
+    <div>
+      <div class="exp-role">Machine Learning Engineer</div>
+      <div class="exp-chips">
+        <span class="chip">YOLO</span>
+        <span class="chip">OCR</span>
+        <span class="chip">GPT-3.5 / 4V</span>
+        <span class="chip">Azure ML</span>
+        <span class="chip">AWS Lambda/EKS</span>
+        <span class="chip">DONUT</span>
+      </div>
+      <ul class="exp-list">
+        <li>Led development of <strong>Loss Run product</strong> using YOLO+OCR — improved processing speed by <span class="mb">40%</span> and reduced manual review time by <span class="mb">50%</span>.</li>
+        <li>Automated ML training pipelines on <strong>Azure Machine Learning</strong> — reduced data prep time from <span class="mb">3–4 hrs → 30–45 min</span> with logging and versioning.</li>
+        <li>Optimized YOLO model performance by <span class="mb">35%</span> through dataset refinement, architecture improvements, and hyperparameter tuning.</li>
+        <li>Deployed object detection models on <strong>AWS Lambda + EKS</strong> via CodePipeline achieving <span class="mb">300ms latency</span>.</li>
+        <li>Deployed identity services integrating YOLO and GPT-3.5 reaching <span class="mb">0.85 mAP</span> and <span class="mb">0.95 accuracy</span> at document level.</li>
+        <li>Trained OCR-free <strong>DONUT</strong> document model with TED accuracy of <span class="mb">0.81</span>.</li>
+        <li>Integrated <strong>Azure MLFlow</strong> for experiment tracking; built auto-annotation pipeline with CVAT.</li>
+        <li>Led 4 interns on GPT-4V experimentation for document extraction, improving project turnaround by <span class="mb">25%</span>.</li>
+      </ul>
+    </div>
+  </div>
+</div>
 
-    <footer>
-        <p>&copy; 2024 Pathik Ghugare. All rights reserved.</p>
-    </footer>
+<div class="section-rule"></div>
 
-    <script src="index.js"></script>
+<!-- ── PROJECTS ── -->
+<div class="section-wrap" id="projects">
+  <div class="sec-eyebrow">Selected Work</div>
+  <h2 class="sec-title">Projects</h2>
+  <div class="projects-grid">
+
+    <div class="proj-card reveal">
+      <div class="proj-n">01 / 04</div>
+      <div class="proj-name">ToolkitAI</div>
+      <div class="proj-desc">
+        Architected and developed core services for an AI-powered multi-tool platform — virtual try-on, background removal, face-swap, and podcast generation. Integrated Gemini 2.5 Flash, Gemini 3 Pro, and Gemini TTS for high-precision multimodal features across image, video, and voice.
+      </div>
+      <div class="proj-tags">
+        <span class="ptag">Gemini 2.5</span>
+        <span class="ptag">Multimodal</span>
+        <span class="ptag">TTS</span>
+        <span class="ptag">Full-stack</span>
+        <span class="ptag">Cursor</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-n">02 / 04</div>
+      <div class="proj-name">GrabMart MCP</div>
+      <div class="proj-desc">
+        MCP server integrating real GrabMart APIs for natural language grocery ordering. Enables recipe-based shopping list generation, mapping user intent to API calls. Built with Claude Sonnet 3.5 on AWS Bedrock using ReAct prompting for tool use and reasoning.
+      </div>
+      <div class="proj-tags">
+        <span class="ptag">MCP</span>
+        <span class="ptag">Claude 3.5</span>
+        <span class="ptag">AWS Bedrock</span>
+        <span class="ptag">ReAct</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal">
+      <div class="proj-n">03 / 04</div>
+      <div class="proj-name">DogLLaMA</div>
+      <div class="proj-desc">
+        Fine-tuned LLaMA2-7b on a dataset translated into "Dog Style Messages" via GPT-3.5-turbo — creating a playful language model in llama2-compatible format. Published the DogLLaMA dataset on Hugging Face. Used PEFT with LoRA and BitsAndBytes for quantization.
+      </div>
+      <div class="proj-tags">
+        <span class="ptag">LLaMA2-7b</span>
+        <span class="ptag">LoRA / PEFT</span>
+        <span class="ptag">HuggingFace</span>
+        <span class="ptag">Quantization</span>
+      </div>
+    </div>
+
+    <div class="proj-card reveal reveal-delay-1">
+      <div class="proj-n">04 / 04</div>
+      <div class="proj-name">BudgetGPT</div>
+      <div class="proj-desc">
+        Agentic RAG system for Indian budget Q&amp;A using GPT-4o-mini. Implemented in-memory vectorstore with per-chunk OpenAI Embeddings and intelligent tool routing across multiple vector indexes. Orchestrated with LlamaIndex, deployed on Streamlit.
+      </div>
+      <div class="proj-tags">
+        <span class="ptag">RAG</span>
+        <span class="ptag">GPT-4o-mini</span>
+        <span class="ptag">LlamaIndex</span>
+        <span class="ptag">Streamlit</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-rule"></div>
+
+<!-- ── SKILLS ── -->
+<div class="section-wrap" id="skills">
+  <div class="sec-eyebrow">Tech Stack</div>
+  <h2 class="sec-title">Skills</h2>
+  <div class="skills-grid">
+
+    <div class="skill-group reveal">
+      <div class="sg-label">LLM / AI Frameworks</div>
+      <div class="sg-tags">
+        <span class="stag">HuggingFace</span>
+        <span class="stag">Langchain</span>
+        <span class="stag">LlamaIndex</span>
+        <span class="stag">DSPy</span>
+        <span class="stag">vLLM</span>
+        <span class="stag">MCP</span>
+        <span class="stag">Ollama</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-1">
+      <div class="sg-label">ML Frameworks</div>
+      <div class="sg-tags">
+        <span class="stag">PyTorch</span>
+        <span class="stag">TensorFlow</span>
+        <span class="stag">Numpy</span>
+        <span class="stag">Pandas</span>
+        <span class="stag">OpenCV</span>
+        <span class="stag">YOLO</span>
+        <span class="stag">Transformers</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-2">
+      <div class="sg-label">Infrastructure</div>
+      <div class="sg-tags">
+        <span class="stag">Docker</span>
+        <span class="stag">Kubernetes</span>
+        <span class="stag">Helm</span>
+        <span class="stag">ArgoCD</span>
+        <span class="stag">GitHub Actions</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal">
+      <div class="sg-label">Cloud</div>
+      <div class="sg-tags">
+        <span class="stag">AWS EKS</span>
+        <span class="stag">AWS Lambda</span>
+        <span class="stag">AWS Bedrock</span>
+        <span class="stag">Azure ML</span>
+        <span class="stag">GCP</span>
+        <span class="stag">Runpod</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-1">
+      <div class="sg-label">Dev Tools</div>
+      <div class="sg-tags">
+        <span class="stag">Git</span>
+        <span class="stag">VSCode</span>
+        <span class="stag">Cursor</span>
+        <span class="stag">Claude Code</span>
+        <span class="stag">OpenAI Codex</span>
+        <span class="stag">MLFlow</span>
+        <span class="stag">CVAT</span>
+      </div>
+    </div>
+
+    <div class="skill-group reveal reveal-delay-2">
+      <div class="sg-label">Databases</div>
+      <div class="sg-tags">
+        <span class="stag">MySQL</span>
+        <span class="stag">PostgreSQL</span>
+        <span class="stag">DynamoDB</span>
+        <span class="stag">OpenSearch</span>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="section-rule"></div>
+
+<!-- ── EDUCATION ── -->
+<div class="section-wrap" id="education">
+  <div class="sec-eyebrow">Background</div>
+  <h2 class="sec-title">Education</h2>
+  <div class="edu-card reveal">
+    <div>
+      <div class="edu-deg">Computer Engineering</div>
+      <div class="edu-school">K.J.Somaiya College of Engineering — Mumbai, Maharashtra</div>
+      <div class="edu-meta">B.Tech · August 2019 – May 2023</div>
+      <div class="edu-course">Data Mining &amp; Analysis · Artificial Intelligence · Software Engineering · Operating Systems</div>
+    </div>
+    <div class="edu-gpa-wrap">
+      <div class="edu-gpa">9.35</div>
+      <div class="edu-gpa-lbl">CGPA</div>
+    </div>
+  </div>
+</div>
+
+<!-- ── CONTACT ── -->
+<div class="contact-wrap" id="contact">
+  <h2 class="contact-title reveal">Let's <em>build</em><br>something.</h2>
+  <p class="contact-sub reveal">Open to impactful ML/AI roles and interesting collaborations.</p>
+  <div class="contact-links reveal">
+    <a href="mailto:pathikghugare13@gmail.com" class="clink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      pathikghugare13@gmail.com
+    </a>
+    <a href="https://linkedin.com/in/pathik-ghugare" target="_blank" class="clink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+      LinkedIn
+    </a>
+    <a href="https://github.com/pathikg" target="_blank" class="clink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+      github.com/pathikg
+    </a>
+    <a href="https://kaggle.com/pathikghugare" target="_blank" class="clink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.825 23.859c-.022.092-.117.141-.281.141h-3.139c-.187 0-.351-.082-.492-.248l-5.178-6.589-1.448 1.374v5.111c0 .235-.117.352-.351.352H5.505c-.236 0-.354-.117-.354-.352V.353c0-.233.118-.353.354-.353h2.431c.234 0 .351.12.351.353v14.343l6.203-6.272c.165-.165.33-.246.495-.246h3.239c.144 0 .236.06.285.18.046.149.034.255-.036.315l-6.555 6.344 6.836 8.507c.095.104.117.208.07.334z"/></svg>
+      Kaggle
+    </a>
+    <a href="https://twitter.com/pathikghugare" target="_blank" class="clink">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>
+      Twitter
+    </a>
+  </div>
+</div>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Pathik<em>.</em>Ghugare</div>
+  <div class="footer-links">
+    <a href="https://linkedin.com/in/pathik-ghugare" target="_blank">LinkedIn</a>
+    <a href="https://github.com/pathikg" target="_blank">GitHub</a>
+    <a href="https://kaggle.com/pathikghugare" target="_blank">Kaggle</a>
+    <a href="ai-study-tracker.html">Study Tracker</a>
+  </div>
+  <div class="footer-note">Bengaluru, India · 2025</div>
+</footer>
+
+<script>
+/* ── NEURAL NET CANVAS ── */
+const canvas = document.getElementById('net');
+const ctx = canvas.getContext('2d');
+let W, H, nodes = [];
+
+function resize() {
+  W = canvas.width  = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+resize();
+window.addEventListener('resize', resize);
+
+const NODE_COUNT = 55;
+const CONN_DIST  = 180;
+
+for (let i = 0; i < NODE_COUNT; i++) {
+  nodes.push({
+    x: Math.random() * window.innerWidth,
+    y: Math.random() * window.innerHeight,
+    vx: (Math.random() - 0.5) * 0.35,
+    vy: (Math.random() - 0.5) * 0.35,
+    r: Math.random() * 1.5 + 0.5,
+  });
+}
+
+function drawNet() {
+  ctx.clearRect(0, 0, W, H);
+  nodes.forEach(n => {
+    n.x += n.vx; n.y += n.vy;
+    if (n.x < 0 || n.x > W) n.vx *= -1;
+    if (n.y < 0 || n.y > H) n.vy *= -1;
+  });
+  for (let i = 0; i < nodes.length; i++) {
+    for (let j = i + 1; j < nodes.length; j++) {
+      const dx = nodes[i].x - nodes[j].x;
+      const dy = nodes[i].y - nodes[j].y;
+      const d  = Math.sqrt(dx * dx + dy * dy);
+      if (d < CONN_DIST) {
+        const alpha = (1 - d / CONN_DIST) * 0.4;
+        ctx.beginPath();
+        ctx.strokeStyle = `rgba(249,115,22,${alpha * 0.5})`;
+        ctx.lineWidth = 0.6;
+        ctx.moveTo(nodes[i].x, nodes[i].y);
+        ctx.lineTo(nodes[j].x, nodes[j].y);
+        ctx.stroke();
+      }
+    }
+  }
+  nodes.forEach(n => {
+    ctx.beginPath();
+    ctx.arc(n.x, n.y, n.r, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(249,115,22,0.5)';
+    ctx.fill();
+  });
+  requestAnimationFrame(drawNet);
+}
+drawNet();
+
+/* ── SCROLL REVEAL ── */
+const revealObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.classList.add('in');
+      revealObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObs.observe(el));
+
+/* ── COUNTER ANIMATION ── */
+function animCount(el) {
+  const target = parseFloat(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const dur = 1400;
+  const start = performance.now();
+  const isInt = Number.isInteger(target);
+  const tick = (now) => {
+    const t = Math.min((now - start) / dur, 1);
+    const ease = 1 - Math.pow(1 - t, 3);
+    const val = target * ease;
+    el.textContent = (isInt ? Math.round(val) : val.toFixed(1)) + suffix;
+    if (t < 1) requestAnimationFrame(tick);
+  };
+  requestAnimationFrame(tick);
+}
+
+const counterObs = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.querySelectorAll('[data-target]').forEach(animCount);
+      counterObs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.5 });
+const statsEl = document.querySelector('.hero-stats');
+if (statsEl) counterObs.observe(statsEl);
+
+/* ── SMOOTH NAV ACTIVE ── */
+const sections = document.querySelectorAll('[id]');
+const navAs = document.querySelectorAll('.nav-links a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => { if (window.scrollY >= s.offsetTop - 120) current = s.id; });
+  navAs.forEach(a => {
+    a.style.color = a.getAttribute('href') === `#${current}` ? 'var(--orange)' : '';
+  });
+}, { passive: true });
+</script>
 </body>
-
 </html>
