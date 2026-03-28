@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Writing — Pathik Ghugare</title>
+<meta name="description" content="Writing by Pathik Ghugare on ML, LLMs, and building AI systems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<style>
+
+:root {
+  --bg:      #f6f4ef;
+  --bg2:     #edeae3;
+  --ink:     #131210;
+  --ink2:    #6a6560;
+  --ink3:    #b5b0a8;
+  --accent:  #bf4a1c;
+  --border:  #dedad3;
+  --display: 'Syne', sans-serif;
+  --body:    'DM Sans', sans-serif;
+  --mono:    'JetBrains Mono', monospace;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 16px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+body::after {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity: 0.022; pointer-events: none; z-index: 999;
+}
+
+/* NAV */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 56px;
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo { font-family: var(--display); font-weight: 700; font-size: 0.95rem; color: var(--ink); text-decoration: none; letter-spacing: -0.01em; }
+.nav-logo span { color: var(--accent); }
+.nav-links { display: flex; gap: 28px; list-style: none; }
+.nav-links a { font-family: var(--mono); font-size: 0.7rem; color: var(--ink2); text-decoration: none; letter-spacing: 0.07em; transition: color 0.2s; }
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
+.nav-cta { font-family: var(--mono); font-size: 0.7rem; color: var(--accent); text-decoration: none; letter-spacing: 0.06em; border-bottom: 1px solid currentColor; padding-bottom: 1px; transition: opacity 0.2s; }
+.nav-cta:hover { opacity: 0.65; }
+
+/* HEADER */
+.page-header {
+  padding: 72px 56px 56px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  border-bottom: 1px solid var(--border);
+  gap: 40px;
+}
+.header-left { }
+.page-tag { font-family: var(--mono); font-size: 0.67rem; color: var(--ink3); letter-spacing: 0.12em; text-transform: uppercase; margin-bottom: 16px; }
+.page-title { font-family: var(--display); font-weight: 800; font-size: clamp(3rem, 6vw, 5.5rem); line-height: 0.95; letter-spacing: -0.04em; color: var(--ink); }
+.page-title em { color: var(--accent); font-style: normal; }
+.header-right { text-align: right; flex-shrink: 0; }
+.post-count { font-family: var(--display); font-weight: 800; font-size: 3rem; color: var(--accent); line-height: 1; }
+.post-count-lbl { font-family: var(--mono); font-size: 0.6rem; color: var(--ink3); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+/* POST LIST */
+.post-list { display: flex; flex-direction: column; }
+
+/* ── TO ADD A POST: copy one .post-item block and fill in details ── */
+.post-item {
+  display: grid;
+  grid-template-columns: 100px 1fr auto;
+  gap: 32px; align-items: baseline;
+  padding: 28px 56px;
+  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+.post-item:hover { background: rgba(0,0,0,0.02); }
+.post-item:hover .post-title { color: var(--accent); }
+
+.post-date { font-family: var(--mono); font-size: 0.65rem; color: var(--ink3); letter-spacing: 0.05em; padding-top: 4px; }
+.post-body { }
+.post-title { font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--ink); margin-bottom: 5px; transition: color 0.2s; }
+.post-desc { font-size: 0.85rem; color: var(--ink2); line-height: 1.55; }
+.post-tag { font-family: var(--mono); font-size: 0.6rem; color: var(--ink3); letter-spacing: 0.07em; border: 1px solid var(--border); background: var(--bg2); padding: 3px 8px; border-radius: 3px; white-space: nowrap; align-self: center; }
+
+/* EMPTY STATE */
+.empty-state {
+  padding: 96px 56px;
+  display: flex; flex-direction: column; align-items: center;
+  text-align: center; gap: 16px;
+  border-bottom: 1px solid var(--border);
+}
+.empty-icon {
+  font-family: var(--mono); font-size: 2rem; color: var(--ink3);
+  margin-bottom: 8px; line-height: 1;
+}
+.empty-title { font-family: var(--display); font-weight: 700; font-size: 1.4rem; color: var(--ink); }
+.empty-sub { font-size: 0.87rem; color: var(--ink2); max-width: 380px; line-height: 1.65; }
+.empty-note { font-family: var(--mono); font-size: 0.67rem; color: var(--ink3); letter-spacing: 0.06em; }
+
+/* TOPICS PREVIEW */
+.topics-wrap {
+  padding: 56px;
+  border-bottom: 1px solid var(--border);
+}
+.topics-label { font-family: var(--mono); font-size: 0.63rem; color: var(--ink3); letter-spacing: 0.13em; text-transform: uppercase; margin-bottom: 24px; }
+.topics-grid { display: flex; flex-wrap: wrap; gap: 10px; }
+.topic-chip {
+  font-size: 0.85rem; color: var(--ink2);
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 6px 16px; border-radius: 100px;
+  font-family: var(--body);
+  transition: all 0.15s;
+}
+.topic-chip:hover { color: var(--ink); border-color: var(--ink3); }
+
+/* FOOTER */
+footer { padding: 22px 56px; display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--border); }
+.footer-name { font-family: var(--display); font-weight: 700; font-size: 0.82rem; color: var(--ink3); }
+.footer-links { display: flex; gap: 20px; }
+.footer-links a { font-family: var(--mono); font-size: 0.62rem; color: var(--ink3); text-decoration: none; transition: color 0.2s; }
+.footer-links a:hover { color: var(--ink); }
+.footer-note { font-family: var(--mono); font-size: 0.62rem; color: var(--ink3); }
+
+@media (max-width: 900px) {
+  nav { padding: 18px 24px; }
+  .nav-links { display: none; }
+  .page-header { flex-direction: column; align-items: flex-start; padding: 48px 24px 40px; gap: 24px; }
+  .header-right { text-align: left; }
+  .post-item { grid-template-columns: 1fr; gap: 8px; padding: 24px; }
+  .post-date { padding-top: 0; }
+  .post-tag { display: none; }
+  .empty-state { padding: 64px 24px; }
+  .topics-wrap { padding: 40px 24px; }
+  footer { padding: 20px 24px; flex-wrap: wrap; gap: 10px; }
+}
+
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Pathik<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="index.html">Portfolio</a></li>
+    <li><a href="blog.html" class="active">Writing</a></li>
+    <li><a href="now.html">Now</a></li>
+  </ul>
+  <a href="mailto:pathikghugare13@gmail.com" class="nav-cta">Say hello →</a>
+</nav>
+
+<div class="page-header">
+  <div class="header-left">
+    <div class="page-tag">Writing · Essays · Notes</div>
+    <h1 class="page-title">Writing &<br><em>thinking.</em></h1>
+  </div>
+  <div class="header-right">
+    <div class="post-count" id="post-count">0</div>
+    <div class="post-count-lbl">Posts</div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     POST LIST
+     To add a post:
+     1. Copy a .post-item block below
+     2. Fill in date, title, description, tag
+     3. Set href to your post file e.g. "posts/my-post.html"
+     4. Update the post-count div above
+     ═══════════════════════════════════════════════ -->
+
+<div class="post-list" id="post-list">
+
+  <!-- EXAMPLE (uncomment and fill when you have a post):
+
+  <a href="posts/your-post-slug.html" class="post-item">
+    <span class="post-date">Mar 2025</span>
+    <div class="post-body">
+      <div class="post-title">Your Post Title Here</div>
+      <div class="post-desc">A one or two line description of what this post is about.</div>
+    </div>
+    <span class="post-tag">LLMs</span>
+  </a>
+
+  -->
+
+</div>
+
+<!-- Empty state — remove this block once you have posts -->
+<div class="empty-state" id="empty-state">
+  <div class="empty-icon">_</div>
+  <div class="empty-title">Nothing yet.</div>
+  <div class="empty-sub">Working through the AI primers and planning to write about what I learn. First posts coming soon.</div>
+  <div class="empty-note">Check back or follow on <a href="https://twitter.com/pathikghugare" target="_blank" style="color:var(--accent);text-decoration:none;">Twitter ↗</a></div>
+</div>
+
+<!-- Topics I'm planning to write about -->
+<div class="topics-wrap">
+  <div class="topics-label">Topics I'm planning to cover</div>
+  <div class="topics-grid">
+    <span class="topic-chip">Transformers</span>
+    <span class="topic-chip">RAG in production</span>
+    <span class="topic-chip">vLLM & inference</span>
+    <span class="topic-chip">DSPy</span>
+    <span class="topic-chip">Fine-tuning BERT</span>
+    <span class="topic-chip">Document intelligence</span>
+    <span class="topic-chip">Table parsing</span>
+    <span class="topic-chip">MCP</span>
+    <span class="topic-chip">LLM-as-Judge</span>
+    <span class="topic-chip">MLOps</span>
+    <span class="topic-chip">Vision Language Models</span>
+    <span class="topic-chip">Agentic systems</span>
+  </div>
+</div>
+
+<footer>
+  <span class="footer-name">Pathik Ghugare</span>
+  <div class="footer-links">
+    <a href="index.html">Portfolio</a>
+    <a href="now.html">Now</a>
+    <a href="ai-study-tracker.html">Study Tracker</a>
+    <a href="https://github.com/pathikg" target="_blank">GitHub</a>
+    <a href="https://twitter.com/pathikghugare" target="_blank">Twitter</a>
+  </div>
+  <span class="footer-note">Bengaluru · 2025</span>
+</footer>
+
+<script>
+// Auto-count posts and hide empty state when posts exist
+const posts = document.querySelectorAll('.post-item');
+document.getElementById('post-count').textContent = posts.length;
+if (posts.length > 0) {
+  document.getElementById('empty-state').style.display = 'none';
+}
+</script>
+
+</body>
+</html>
