@@ -7,371 +7,271 @@
 <meta name="description" content="What Pathik is currently up to — learning, reading, using, thinking about.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=JetBrains+Mono:wght@300;400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
-
 :root {
-  --bg:      #f6f4ef;
-  --bg2:     #edeae3;
-  --ink:     #131210;
-  --ink2:    #6a6560;
-  --ink3:    #b5b0a8;
-  --accent:  #bf4a1c;
-  --border:  #dedad3;
-  --display: 'Syne', sans-serif;
-  --body:    'DM Sans', sans-serif;
-  --mono:    'JetBrains Mono', monospace;
+  --bg:     #f6f4ef;
+  --ink:    #131210;
+  --ink2:   #6a6560;
+  --ink3:   #a8a29a;
+  --border: #e4e0d8;
+  --accent: #bf4a1c;
 }
-
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 html { scroll-behavior: smooth; }
 body {
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--body);
-  font-size: 16px;
-  line-height: 1.6;
+  font-family: 'Inter', sans-serif;
+  font-size: 15px; line-height: 1.7;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
 }
 
-body::after {
-  content: '';
-  position: fixed; inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  opacity: 0.022;
-  pointer-events: none;
-  z-index: 999;
+.wrap {
+  max-width: 680px;
+  margin: 0 auto;
+  padding: 56px 32px 72px;
 }
 
-/* ─── NAV ─── */
 nav {
-  display: flex; align-items: center; justify-content: space-between;
-  padding: 20px 56px;
-  border-bottom: 1px solid var(--border);
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 88px;
 }
-.nav-logo {
-  font-family: var(--display); font-weight: 700;
-  font-size: 0.95rem; color: var(--ink);
-  text-decoration: none; letter-spacing: -0.01em;
+.logo {
+  font-weight: 500; color: var(--ink);
+  text-decoration: none; font-size: 15px;
+  letter-spacing: -0.01em;
 }
-.nav-logo span { color: var(--accent); }
-.nav-back {
-  font-family: var(--mono); font-size: 0.7rem;
+.nav-links { display: flex; gap: 24px; list-style: none; }
+.nav-links a {
   color: var(--ink2); text-decoration: none;
-  letter-spacing: 0.06em;
-  transition: color 0.2s;
+  font-size: 14px; transition: color 0.15s;
 }
-.nav-back:hover { color: var(--ink); }
+.nav-links a:hover, .nav-links a.active { color: var(--ink); }
 
-/* ─── HEADER ─── */
-.page-header {
-  padding: 72px 56px 56px;
-  border-bottom: 1px solid var(--border);
-}
 .page-tag {
-  font-family: var(--mono); font-size: 0.67rem;
-  color: var(--ink3); letter-spacing: 0.12em;
-  text-transform: uppercase; margin-bottom: 16px;
+  font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink3);
+  margin-bottom: 12px; font-weight: 500;
 }
 .page-title {
-  font-family: var(--display); font-weight: 800;
-  font-size: clamp(3rem, 7vw, 6rem);
-  line-height: 0.95; letter-spacing: -0.04em;
-  color: var(--ink); margin-bottom: 20px;
+  font-size: 1.5rem; font-weight: 500;
+  letter-spacing: -0.015em; margin-bottom: 16px;
 }
-.page-title em { color: var(--accent); font-style: normal; }
 .page-desc {
-  font-size: 0.95rem; color: var(--ink2);
-  max-width: 520px; line-height: 1.7;
-  font-weight: 300;
+  color: var(--ink2); max-width: 540px;
+  margin-bottom: 10px;
 }
 .page-updated {
-  font-family: var(--mono); font-size: 0.62rem;
-  color: var(--ink3); letter-spacing: 0.08em;
-  margin-top: 20px;
+  font-size: 13px; color: var(--ink3);
+  margin-bottom: 48px;
 }
 
-/* ─── SECTION GRID ─── */
-.section {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  border-bottom: 1px solid var(--border);
+/* SECTIONS */
+section { margin-top: 56px; }
+.sec-label {
+  font-size: 11px; letter-spacing: 0.18em;
+  text-transform: uppercase; color: var(--ink3);
+  margin-bottom: 24px; font-weight: 500;
 }
-.sec-rail {
-  padding: 56px 0 56px 56px;
-  border-right: 1px solid var(--border);
-}
-.sec-tag {
-  font-family: var(--mono); font-size: 0.63rem;
-  color: var(--ink3); letter-spacing: 0.13em;
-  text-transform: uppercase;
-  position: sticky; top: 32px;
-}
-.sec-body { padding: 56px; }
 
-/* ─── ITEM LIST ─── */
+.intro {
+  color: var(--ink2); font-size: 14px;
+  margin-bottom: 20px; max-width: 560px;
+}
+
+/* ITEM LIST */
 .item-list { display: flex; flex-direction: column; }
 .item {
   display: flex; justify-content: space-between;
-  align-items: baseline; gap: 24px;
-  padding: 18px 0;
-  border-bottom: 1px solid var(--border);
-}
-.item:first-child { border-top: 1px solid var(--border); }
-.item-left { flex: 1; }
-.item-name {
-  font-family: var(--display); font-weight: 600;
-  font-size: 1rem; color: var(--ink);
-  margin-bottom: 3px;
-}
-.item-name a {
-  color: inherit; text-decoration: none;
-  transition: color 0.2s;
-}
-.item-name a:hover { color: var(--accent); }
-.item-sub {
-  font-size: 0.82rem; color: var(--ink2);
-  line-height: 1.5;
-}
-.item-tag {
-  font-family: var(--mono); font-size: 0.6rem;
-  color: var(--ink3); letter-spacing: 0.07em;
-  white-space: nowrap;
-  border: 1px solid var(--border);
-  padding: 3px 8px; border-radius: 3px;
-  background: var(--bg2);
-  flex-shrink: 0;
-}
-.item-link {
-  font-family: var(--mono); font-size: 0.65rem;
-  color: var(--ink3); text-decoration: none;
-  letter-spacing: 0.05em;
-  border-bottom: 1px solid var(--border);
-  padding-bottom: 1px;
-  white-space: nowrap; flex-shrink: 0;
-  transition: color 0.2s, border-color 0.2s;
-}
-.item-link:hover { color: var(--accent); border-color: var(--accent); }
-
-/* ─── STATUS BADGE ─── */
-.status {
-  display: inline-flex; align-items: center; gap: 6px;
-  font-family: var(--mono); font-size: 0.6rem;
-  letter-spacing: 0.08em; text-transform: uppercase;
-  padding: 3px 8px; border-radius: 3px;
-  border: 1px solid; flex-shrink: 0;
-}
-.status.active { color: #16a34a; border-color: rgba(22,163,74,0.3); background: rgba(22,163,74,0.06); }
-.status.reading { color: var(--accent); border-color: rgba(191,74,28,0.3); background: rgba(191,74,28,0.05); }
-.status.done { color: var(--ink3); border-color: var(--border); background: var(--bg2); }
-.status::before { content: ''; width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
-
-/* ─── NOTE BLOCK ─── */
-.note {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 8px; padding: 20px 24px;
-  margin-bottom: 20px;
-}
-.note-label {
-  font-family: var(--mono); font-size: 0.6rem;
-  color: var(--ink3); letter-spacing: 0.1em;
-  text-transform: uppercase; margin-bottom: 8px;
-}
-.note p { font-size: 0.87rem; color: var(--ink2); line-height: 1.65; }
-.note p + p { margin-top: 8px; }
-
-/* ─── TOOL GRID ─── */
-.tool-grid { display: flex; flex-direction: column; gap: 0; }
-.tool-row {
-  display: grid; grid-template-columns: 160px 1fr;
-  gap: 16px; align-items: start;
-  padding: 16px 0;
-  border-bottom: 1px solid var(--border);
-}
-.tool-row:first-child { border-top: 1px solid var(--border); }
-.tool-cat {
-  font-family: var(--mono); font-size: 0.62rem;
-  color: var(--ink3); letter-spacing: 0.08em;
-  text-transform: uppercase; padding-top: 2px;
-}
-.tool-items { font-size: 0.87rem; color: var(--ink2); }
-.tool-items a { color: var(--ink2); text-decoration: none; border-bottom: 1px solid var(--border); transition: color 0.2s, border-color 0.2s; }
-.tool-items a:hover { color: var(--accent); border-color: var(--accent); }
-
-/* ─── FOOTER ─── */
-footer {
-  padding: 22px 56px;
-  display: flex; justify-content: space-between; align-items: center;
+  align-items: baseline; gap: 20px;
+  padding: 14px 0;
   border-top: 1px solid var(--border);
 }
-.footer-name { font-family: var(--display); font-weight: 700; font-size: 0.82rem; color: var(--ink3); }
-.footer-links { display: flex; gap: 20px; }
-.footer-links a { font-family: var(--mono); font-size: 0.62rem; color: var(--ink3); text-decoration: none; transition: color 0.2s; }
-.footer-links a:hover { color: var(--ink); }
-.footer-note { font-family: var(--mono); font-size: 0.62rem; color: var(--ink3); }
-
-/* ─── RESPONSIVE ─── */
-@media (max-width: 900px) {
-  nav { padding: 18px 24px; }
-  .page-header { padding: 48px 24px 40px; }
-  .section { grid-template-columns: 1fr; }
-  .sec-rail { padding: 32px 24px 0; border-right: none; border-bottom: 1px solid var(--border); }
-  .sec-tag { position: static; }
-  .sec-body { padding: 28px 24px 48px; }
-  .tool-row { grid-template-columns: 1fr; gap: 4px; }
-  footer { padding: 20px 24px; flex-wrap: wrap; gap: 10px; }
+.item-list .item:last-child { border-bottom: 1px solid var(--border); }
+.item-left { flex: 1; }
+.item-name { font-weight: 500; color: var(--ink); margin-bottom: 2px; }
+.item-name a {
+  color: inherit; text-decoration: none;
+  transition: color 0.15s;
 }
+.item-name a:hover { color: var(--accent); }
+.item-sub { font-size: 14px; color: var(--ink2); }
+.item-status {
+  font-size: 12px; color: var(--ink3);
+  white-space: nowrap; flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+.item-status.active { color: #16a34a; }
+.item-status.reading { color: var(--accent); }
 
+/* TOOLS */
+.tool-row {
+  display: grid; grid-template-columns: 140px 1fr;
+  gap: 16px; padding: 10px 0;
+}
+.tool-cat { color: var(--ink3); font-size: 13px; }
+.tool-val { color: var(--ink2); font-size: 14px; }
+.tool-val a {
+  color: var(--ink); text-decoration: underline;
+  text-underline-offset: 3px; text-decoration-thickness: 1px;
+  text-decoration-color: var(--border);
+  transition: color 0.15s, text-decoration-color 0.15s;
+}
+.tool-val a:hover { color: var(--accent); text-decoration-color: var(--accent); }
+
+/* FOOTER */
+footer {
+  margin-top: 96px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+  display: flex; justify-content: space-between;
+  font-size: 13px; color: var(--ink3);
+}
+footer a {
+  color: var(--ink3); text-decoration: none;
+  margin-left: 20px; transition: color 0.15s;
+}
+footer a:hover { color: var(--accent); }
+
+@media (max-width: 600px) {
+  .wrap { padding: 40px 24px 56px; }
+  nav { margin-bottom: 56px; }
+  .nav-links { gap: 16px; }
+  section { margin-top: 44px; }
+  .tool-row { grid-template-columns: 1fr; gap: 2px; padding: 8px 0; }
+  footer { flex-direction: column; gap: 16px; }
+  footer a { margin-left: 0; margin-right: 18px; }
+}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<!-- NAV -->
 <nav>
-  <a href="index.html" class="nav-logo">Pathik<span>.</span></a>
-  <a href="index.html" class="nav-back">← Back to portfolio</a>
+  <a href="index.html" class="logo">Pathik Ghugare</a>
+  <ul class="nav-links">
+    <li><a href="index.html">Portfolio</a></li>
+    <li><a href="blog.html">Writing</a></li>
+    <li><a href="now.html" class="active">Now</a></li>
+  </ul>
 </nav>
 
-<!-- HEADER -->
-<div class="page-header">
-  <div class="page-tag">Personal · Miscellaneous</div>
-  <h1 class="page-title">What I'm up<br>to <em>now.</em></h1>
-  <p class="page-desc">
-    Not for anyone in particular — just a running dump of what I'm learning, reading, building, and thinking about. Updated whenever I remember to.
-  </p>
-  <div class="page-updated">Last updated: March 2025</div>
-</div>
+<div class="page-tag">Now</div>
+<h1 class="page-title">What I'm up to</h1>
+<p class="page-desc">
+  A running dump of what I'm learning, reading, building, and thinking about. Updated whenever I remember to.
+</p>
+<div class="page-updated">Last updated: March 2025</div>
 
-<!-- LEARNING -->
-<div class="section">
-  <div class="sec-rail"><span class="sec-tag">Learning</span></div>
-  <div class="sec-body">
-
-    <div class="note">
-      <div class="note-label">Context</div>
-      <p>Going deep on AI/ML fundamentals — prepping for interviews and just because I want to understand the stuff I'm using at work more rigorously. Working through aman.ai primers systematically.</p>
+<section>
+  <div class="sec-label">Learning</div>
+  <p class="intro">Going deep on AI/ML fundamentals — prepping for interviews and just because I want to understand the stuff I'm using at work more rigorously. Working through aman.ai primers systematically.</p>
+  <div class="item-list">
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name"><a href="ai-study-tracker.html">AI Study Tracker</a></div>
+        <div class="item-sub">~110 topics from aman.ai/primers — transformers, LLMs, RAG, diffusion, agents, MLOps. Tracking read / notes / content written.</div>
+      </div>
+      <span class="item-status active">In progress</span>
     </div>
-
-    <div class="item-list">
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name"><a href="ai-study-tracker.html">AI Study Tracker</a></div>
-          <div class="item-sub">~110 topics from aman.ai/primers — transformers, LLMs, RAG, diffusion, agents, MLOps and more. Tracking read / notes / content written.</div>
-        </div>
-        <span class="status active">In progress</span>
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name">Vision Language Models</div>
+        <div class="item-sub">Working with VLMs at Parspec — going deeper on architectures, OCR models, and multimodal inference.</div>
       </div>
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name">Vision Language Models</div>
-          <div class="item-sub">Working with VLMs at Parspec — going deeper on VLM architectures, OCR models, and multimodal inference.</div>
-        </div>
-        <span class="status active">Ongoing</span>
+      <span class="item-status active">Ongoing</span>
+    </div>
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name">DSPy</div>
+        <div class="item-sub">Using it in production for automated prompt optimization. Reading the paper and experimenting with optimizers.</div>
       </div>
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name">DSPy</div>
-          <div class="item-sub">Using it in production for automated prompt optimization. Reading the paper and experimenting with optimizers.</div>
-        </div>
-        <span class="status active">Active</span>
-      </div>
+      <span class="item-status active">Active</span>
     </div>
   </div>
-</div>
+</section>
 
-<!-- READING -->
-<div class="section">
-  <div class="sec-rail"><span class="sec-tag">Reading</span></div>
-  <div class="sec-body">
-    <div class="item-list">
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name"><a href="https://aman.ai/primers/ai/" target="_blank">aman.ai/primers/ai ↗</a></div>
-          <div class="item-sub">Best collection of ML/AI primers I've found. Dense, well-written, covers everything from regression to MoE to diffusion models.</div>
-        </div>
-        <span class="item-tag">Resource</span>
+<section>
+  <div class="sec-label">Reading</div>
+  <div class="item-list">
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name"><a href="https://aman.ai/primers/ai/" target="_blank">aman.ai/primers/ai</a></div>
+        <div class="item-sub">Best collection of ML/AI primers I've found. Dense, well-written, covers everything from regression to MoE to diffusion.</div>
       </div>
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name">Attention Is All You Need</div>
-          <div class="item-sub">Re-reading the original transformer paper after using attention mechanisms in production — hits differently now.</div>
-        </div>
-        <span class="status reading">Reading</span>
+      <span class="item-status">Resource</span>
+    </div>
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name">Attention Is All You Need</div>
+        <div class="item-sub">Re-reading the original transformer paper after using attention mechanisms in production — hits differently now.</div>
       </div>
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name">Ilya Sutskever's Top 30 Papers</div>
-          <div class="item-sub">Working through the list systematically. On paper #8 right now.</div>
-        </div>
-        <span class="status reading">In progress</span>
+      <span class="item-status reading">Reading</span>
+    </div>
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name">Ilya Sutskever's Top 30 Papers</div>
+        <div class="item-sub">Working through the list systematically. On paper #8 right now.</div>
       </div>
+      <span class="item-status reading">In progress</span>
     </div>
   </div>
-</div>
+</section>
 
-<!-- TOOLS -->
-<div class="section">
-  <div class="sec-rail"><span class="sec-tag">Daily Tools</span></div>
-  <div class="sec-body">
-    <div class="tool-grid">
-      <div class="tool-row">
-        <span class="tool-cat">Editor</span>
-        <span class="tool-items"><a href="https://cursor.sh" target="_blank">Cursor</a> — AI-native editor, using it for basically everything now</span>
+<section>
+  <div class="sec-label">Daily Tools</div>
+  <div class="tool-row">
+    <span class="tool-cat">Editor</span>
+    <span class="tool-val"><a href="https://cursor.sh" target="_blank">Cursor</a> — AI-native editor, using it for basically everything</span>
+  </div>
+  <div class="tool-row">
+    <span class="tool-cat">AI Coding</span>
+    <span class="tool-val"><a href="https://claude.ai/code" target="_blank">Claude Code</a> — CLI for bigger refactors and multi-file tasks</span>
+  </div>
+  <div class="tool-row">
+    <span class="tool-cat">Inference</span>
+    <span class="tool-val"><a href="https://ollama.com" target="_blank">Ollama</a> for local models, <a href="https://github.com/vllm-project/vllm" target="_blank">vLLM</a> for production serving</span>
+  </div>
+  <div class="tool-row">
+    <span class="tool-cat">LLM APIs</span>
+    <span class="tool-val">Gemini 2.5 Flash (speed), Claude Sonnet (quality), GPT-4o (fallback)</span>
+  </div>
+  <div class="tool-row">
+    <span class="tool-cat">Experiments</span>
+    <span class="tool-val"><a href="https://mlflow.org" target="_blank">MLFlow</a>, Google Colab for prototypes, <a href="https://runpod.io" target="_blank">Runpod</a> for GPU</span>
+  </div>
+</section>
+
+<section>
+  <div class="sec-label">Misc</div>
+  <div class="item-list">
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name">Building in public</div>
+        <div class="item-sub">Writing more about what I'm learning — planning a series as I go through the AI primers.</div>
       </div>
-      <div class="tool-row">
-        <span class="tool-cat">AI Coding</span>
-        <span class="tool-items"><a href="https://claude.ai/code" target="_blank">Claude Code</a> — CLI for bigger refactors and multi-file tasks</span>
+      <span class="item-status">Soon</span>
+    </div>
+    <div class="item">
+      <div class="item-left">
+        <div class="item-name">MCP ecosystem</div>
+        <div class="item-sub">Exploring Model Context Protocol — built GrabMart MCP, thinking about what else can be wrapped. The primitives are powerful.</div>
       </div>
-      <div class="tool-row">
-        <span class="tool-cat">Inference</span>
-        <span class="tool-items"><a href="https://ollama.com" target="_blank">Ollama</a> for local models, <a href="https://github.com/vllm-project/vllm" target="_blank">vLLM</a> for production serving</span>
-      </div>
-      <div class="tool-row">
-        <span class="tool-cat">LLM APIs</span>
-        <span class="tool-items">Gemini 2.5 Flash (speed), Claude Sonnet (quality), GPT-4o (fallback)</span>
-      </div>
-      <div class="tool-row">
-        <span class="tool-cat">Experiments</span>
-        <span class="tool-items"><a href="https://mlflow.org" target="_blank">MLFlow</a>, Google Colab for quick prototypes, <a href="https://runpod.io" target="_blank">Runpod</a> for GPU</span>
-      </div>
+      <span class="item-status">Exploring</span>
     </div>
   </div>
-</div>
+</section>
 
-<!-- MISC -->
-<div class="section">
-  <div class="sec-rail"><span class="sec-tag">Misc</span></div>
-  <div class="sec-body">
-    <div class="item-list">
-      <!-- Add anything here — links, thoughts, random stuff -->
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name">Building in public</div>
-          <div class="item-sub">Trying to write more about what I'm learning — planning a substack/blog series as I go through the AI primers. Will link here when it exists.</div>
-        </div>
-        <span class="item-tag">Soon</span>
-      </div>
-      <div class="item">
-        <div class="item-left">
-          <div class="item-name">MCP ecosystem</div>
-          <div class="item-sub">Exploring Model Context Protocol seriously — built GrabMart MCP, thinking about what else can be wrapped. The primitives are powerful.</div>
-        </div>
-        <span class="item-tag">Exploring</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- FOOTER -->
 <footer>
-  <span class="footer-name">Pathik Ghugare</span>
-  <div class="footer-links">
+  <span>Bengaluru · 2025</span>
+  <div>
     <a href="index.html">Portfolio</a>
-    <a href="ai-study-tracker.html">Study Tracker</a>
+    <a href="blog.html">Writing</a>
     <a href="https://github.com/pathikg" target="_blank">GitHub</a>
-    <a href="https://twitter.com/pathikghugare" target="_blank">Twitter</a>
   </div>
-  <span class="footer-note">Bengaluru · 2025</span>
 </footer>
 
+</div>
 </body>
 </html>
