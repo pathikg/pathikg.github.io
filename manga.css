@@ -156,8 +156,24 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .caption a { text-decoration: none; }
 .caption a:hover { text-decoration: underline; }
 .project p { margin-top: .8em; max-width: 48ch; }
-.empty-gallery { display: flex; align-items: center; gap: 1rem; padding: 2rem; border: var(--line); }
-.empty-gallery img { width: 4rem; }
+.photo-section { margin-top: clamp(1rem, 2vw, 2rem); }
+.photo-section h2 { margin-bottom: .45em; font-size: clamp(1.45rem, 2.2vw, 2.1rem); }
+.photo-grid { display: grid; gap: clamp(.5rem, 1vw, 1rem); }
+.event-photos { grid-template-columns: 1.8fr 1fr .76fr; }
+.ride-photos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.photo-grid figure { margin: 0; min-width: 0; border: var(--line); }
+.photo-grid a, .photo-grid img { display: block; width: 100%; }
+.photo-grid img { height: 100%; object-fit: cover; }
+.event-photos a { height: clamp(15rem, 32vw, 32rem); }
+.ride-photos a { aspect-ratio: 1; }
+.photo-grid figcaption { padding: .65rem .75rem; font-size: clamp(.85rem, 1vw, 1rem); }
+@media (max-width: 700px) {
+  .event-photos, .ride-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .event-photos figure:first-child { grid-column: 1 / -1; }
+  .event-photos a { height: auto; aspect-ratio: 3 / 4; }
+  .event-photos figure:first-child a { aspect-ratio: 4 / 3; }
+}
+
 .resume header { display: flex; align-items: baseline; justify-content: space-between; }
 .resume object { display: block; width: 100%; height: 78vh; border: 1px solid #777; }
 /* Scale the complete desktop spread into the space left below navigation. */
