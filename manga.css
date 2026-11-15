@@ -159,19 +159,31 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .photo-section { margin-top: clamp(1rem, 2vw, 2rem); }
 .photo-section h2 { margin-bottom: .45em; font-size: clamp(1.45rem, 2.2vw, 2.1rem); }
 .photo-grid { display: grid; gap: clamp(.5rem, 1vw, 1rem); }
-.event-photos { grid-template-columns: 1.8fr 1fr .76fr; }
+.album { border: var(--line); }
+.album summary { display: grid; grid-template-columns: minmax(0, 24rem) minmax(0, 36rem); cursor: pointer; list-style: none; align-items: center; }
+.album summary::-webkit-details-marker { display: none; }
+.album summary:focus-visible { outline: 3px solid #2a5da6; outline-offset: 3px; }
+.album-cover { display: block; width: 100%; height: auto; }
+.album-copy { display: grid; gap: .65rem; padding: clamp(1rem, 2.3vw, 2rem); line-height: 1.45; }
+.album-copy strong { font-size: clamp(1.45rem, 2.4vw, 2.25rem); font-weight: 500; letter-spacing: -.035em; }
+.album-date { font-size: .9rem; }
+.album-action { justify-self: start; border: 1px solid; padding: .35rem .65rem; }
+.album summary:hover .album-action { background: var(--ink); color: var(--paper); }
+.album .when-open, .album[open] .when-closed { display: none; }
+.album[open] .when-open { display: inline; }
+.session-photos { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: .75rem; border-top: var(--line); }
 .ride-photos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 .photo-grid figure { margin: 0; min-width: 0; border: var(--line); }
 .photo-grid a, .photo-grid img { display: block; width: 100%; }
 .photo-grid img { height: 100%; object-fit: cover; }
-.event-photos a { height: clamp(15rem, 32vw, 32rem); }
+.session-photos a { aspect-ratio: 3 / 4; }
 .ride-photos a { aspect-ratio: 1; }
 .photo-grid figcaption { padding: .65rem .75rem; font-size: clamp(.85rem, 1vw, 1rem); }
 @media (max-width: 700px) {
-  .event-photos, .ride-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .event-photos figure:first-child { grid-column: 1 / -1; }
-  .event-photos a { height: auto; aspect-ratio: 3 / 4; }
-  .event-photos figure:first-child a { aspect-ratio: 4 / 3; }
+  .ride-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .album summary, .session-photos { grid-template-columns: 1fr; }
+  .album-copy { gap: .5rem; }
+
 }
 
 .resume header { display: flex; align-items: baseline; justify-content: space-between; }
