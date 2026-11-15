@@ -199,6 +199,32 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .album summary::-webkit-details-marker { display: none; }
 .album summary:focus-visible { outline: 3px solid #2a5da6; outline-offset: 2px; }
 .album-cover { display: block; width: 100%; height: 100%; object-fit: cover; }
+/* A diagonal gutter links the award photograph to two glimpses of the build. */
+.album[data-layout="award"] summary {
+  background: var(--paper);
+  --inset-width: 26%;
+  --slant: clamp(15px, 3vw, 40px);
+}
+.album[data-layout="award"] .album-cover {
+  width: calc(100% - var(--inset-width) - 5px);
+  clip-path: polygon(0 0, 100% 0, calc(100% - var(--slant)) 100%, 0 100%);
+}
+.award-insets {
+  position: absolute;
+  inset: 0 0 0 auto;
+  width: calc(var(--inset-width) + var(--slant));
+  display: grid;
+  grid-template-rows: 1fr 1.2fr;
+  gap: 5px;
+  clip-path: polygon(var(--slant) 0, 100% 0, 100% 100%, 0 100%);
+}
+.award-insets img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.15);
+}
 .album-copy {
   position: absolute;
   bottom: .65rem;

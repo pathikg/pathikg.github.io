@@ -107,3 +107,36 @@ html:has(.album-reader[open]) { overflow: hidden; }
     aspect-ratio: 1.35;
   }
 }
+
+/* A broad stage panel leads into three tighter scenes from the workspace. */
+.reader-row[data-shape="award"] {
+  --cut: clamp(20px, 6vw, 68px);
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-template-rows: 1.15fr 1fr;
+  aspect-ratio: 1.25;
+}
+.reader-row[data-shape="award"] > :first-child { grid-column: span 8; }
+.reader-row[data-shape="award"] > :nth-child(2) { grid-column: span 4; }
+.reader-row[data-shape="award"] > :nth-child(3) { grid-column: span 5; }
+.reader-row[data-shape="award"] > :last-child { grid-column: span 7; }
+.reader-row[data-shape="award"] > :nth-child(odd) {
+  margin-right: calc(-1 * var(--cut));
+}
+.reader-row[data-shape="award"] > :first-child {
+  --frame: polygon(0 0, 100% 0, calc(100% - var(--cut)) 100%, 0 100%);
+}
+.reader-row[data-shape="award"] > :nth-child(2) {
+  --frame: polygon(var(--cut) 0, 100% 0, 100% 100%, 0 100%);
+}
+.reader-row[data-shape="award"] > :nth-child(3) {
+  --frame: polygon(0 0, calc(100% - var(--cut)) 0, 100% 100%, 0 100%);
+}
+.reader-row[data-shape="award"] > :last-child {
+  --frame: polygon(0 0, 100% 0, 100% 100%, var(--cut) 100%);
+}
+.reader-row[data-shape="award"] > :not(:first-child) img {
+  filter: grayscale(1) contrast(1.12);
+}
+@media (max-width: 600px) {
+  .reader-row[data-shape="award"] { aspect-ratio: .95; }
+}

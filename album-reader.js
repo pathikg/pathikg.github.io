@@ -23,7 +23,14 @@
     return Number(image.getAttribute('height')) > Number(image.getAttribute('width'));
   }
 
-  function layOut(panels, title) {
+  function layOut(panels, title, layout) {
+    if (layout === 'award' && panels.length === 4) {
+      const feature = document.createElement('div');
+      feature.className = 'reader-row';
+      feature.dataset.shape = 'award';
+      feature.append(...panels);
+      return feature;
+    }
     // Keep the same gutters on repeat visits and preserve the author's photo order.
     let variation = Array.from(title).reduce((hash, char) => (hash * 31 + char.codePointAt(0)) >>> 0, 0);
     const page = document.createDocumentFragment();
@@ -63,7 +70,7 @@
       const title = summary.querySelector('strong').textContent;
       reader.querySelector('h2').textContent = title;
       reader.querySelector('.reader-date').textContent = summary.querySelector('.album-date')?.textContent || '';
-      spread.replaceChildren(layOut(panels.map(panel => panel.cloneNode(true)), title));
+      spread.replaceChildren(layOut(panels.map(panel => panel.cloneNode(true)), title, album.dataset.layout));
       reader.showModal();
       reader.scrollTop = 0;
       closeButton.focus({ preventScroll: true });
