@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Work · Pathik Ghugare</title>
+  <link rel="stylesheet" href="manga.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="masthead">
+  <a class="brand" href="index.html">Pathik Ghugare</a>
+  <nav aria-label="Main navigation"><a href="work.html" aria-current="page">Work</a> <a href="gallery.html">Gallery</a> <a href="resume.html">Résumé</a></nav>
+</header>
+<main class="sheet" id="main">
+  <h1>Work</h1>
+  <div class="roles" id="experience">
+    <article class="ink-card">
+      <header class="tone"><h2 class="caption">Parspec.io</h2></header>
+      <div class="role-body">
+        <p class="role">Machine Learning Engineer 2</p>
+        <p class="dates">Oct 2024 – Present</p>
+        <ul>
+          <li>Built an agent for a seven-stage request-for-quotation (RFQ) pipeline using LangGraph, Temporal, FastAPI, and PostgreSQL. The agent achieved <strong>over 95% task completion</strong>.</li>
+          <li>Built agent evals for generated messages, with evaluation targets of at least 95% factual grounding, at least 90% contextual relevance, and 100% formatting compliance.</li>
+          <li>Automated prompt optimization with DSPy, <strong>reducing manual prompt-engineering effort by 80%</strong>.</li>
+          <li>Replaced AWS Textract for table detection with a fine-tuned Table-Transformer, <strong>cutting cost and latency by 67%</strong> at approximately 86% mAP in production.</li>
+          <li>Led the RFQ extraction team and managed model deployments on <strong>AWS EKS</strong>. Set up CI/CD with GitHub Actions and Argo CD, and used OpenSearch for logging and monitoring.</li>
+        </ul>
+      </div>
+    </article>
+    <article class="ink-card">
+      <header class="tone"><h2 class="caption">Pibit.ai</h2></header>
+      <div class="role-body">
+        <p class="role">Machine Learning Engineer</p>
+        <p class="dates">Aug 2022 – Sep 2024</p>
+        <ul>
+          <li>Led development of the Loss Run extraction product using YOLO and OCR, <strong>increasing processing speed by 40%</strong> and <strong>cutting manual review time by 50%</strong>.</li>
+          <li>Automated data preparation and model training in Azure ML with logging and versioning, reducing preparation time <strong>from 3–4 hours to 30–45 minutes</strong>.</li>
+          <li>Deployed object detectors on AWS Lambda and EKS through CodePipeline, achieving <strong>300 ms inference latency</strong>. Integrated MLflow tracking and CVAT auto-annotation.</li>
+          <li>Trained an OCR-free DONUT model for document extraction, achieving <strong>0.81 TED accuracy</strong>.</li>
+          <li>Led four interns on GPT-4V document extraction experiments, <strong>improving project turnaround time by 25%</strong>.</li>
+        </ul>
+      </div>
+    </article>
+  </div>
+  <h2 class="section-title" id="projects">Side projects</h2>
+  <div class="projects">
+    <article class="project ink-card">
+      <h3 class="caption"><a href="https://runhermes.sh">RunHermes.sh</a></h3>
+      <p>RunHermes provisions a Hetzner server for each user and runs their Hermes agent in Docker. Users talk to it through Telegram or Discord.</p>
+      <p>I built cloud-init provisioning, Supabase authentication, PostgreSQL row-level security, billing, usage credits, and safeguards against shell injection.</p>
+    </article>
+    <article class="project ink-card">
+      <h3 class="caption"><a href="https://github.com/pathikg/niyog.dev">Niyog.dev</a></h3>
+      <p>Niyog renders résumé pages as images and uses a vision model to read tables and columns into a common profile format. Content hashes let it reuse previous results.</p>
+      <p>I built a streaming ReAct agent with FastAPI and LangGraph to fill gaps and track profile edits. Matching combines hard filters with vector similarity in PostgreSQL and pgvector.</p>
+    </article>
+  </div>
+  <h2 class="section-title">Technical skills</h2>
+  <dl class="skills-list">
+    <dt>Machine learning and vision</dt><dd>Python, PyTorch, Hugging Face, BERT, YOLO, Table-Transformer, DONUT, OCR</dd>
+    <dt>Language models and agents</dt><dd>LangGraph, LangChain, LlamaIndex, DSPy, vLLM, MCP, RAG, LoRA/PEFT</dd>
+    <dt>Backend and infrastructure</dt><dd>FastAPI, Temporal, PostgreSQL/pgvector, MySQL, DynamoDB, Docker, Kubernetes, Helm</dd>
+    <dt>Cloud and MLOps</dt><dd>AWS (EKS, Lambda, Bedrock), Azure ML, MLflow, CVAT, GitHub Actions, Argo CD</dd>
+  </dl>
+  <h2 class="section-title">Education</h2>
+  <section class="education ink-card" aria-label="Computer engineering degree">
+    <h3>B.Tech in Computer Engineering</h3>
+    <p>K.J. Somaiya College of Engineering, Mumbai</p>
+    <p class="dates">Aug 2019 – May 2023 · CGPA 9.35</p>
+  </section>
+  <footer class="work-links" aria-label="Professional profiles">
+    <a href="https://github.com/pathikg">GitHub</a>
+    <a href="https://www.linkedin.com/in/pathik-ghugare">LinkedIn</a>
+    <a href="resume.html">Full résumé</a>
+  </footer>
+</main>
+</body>
+</html>
