@@ -101,12 +101,18 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .tile:focus-visible::before { background: #e9f1ff; }
 .sheet { border: var(--line); margin: .6rem; padding: clamp(.8rem, 1.4vw, 1.5rem); }
 .sheet h1 { font-size: clamp(2.5rem, 4.2vw, 4.3rem); margin-bottom: .35em; }
-.work-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; margin-bottom: 1rem; }
+.work-heading {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: .75rem;
+  margin-bottom: 1rem;
+}
 .work-heading h1 { margin-bottom: 0; }
-.work-heading a, .consulting-link {
+.work-heading a {
   display: inline-flex;
   align-items: center;
-  margin-inline-start: auto;
+  justify-self: end;
   min-height: 44px;
   padding: .35rem .75rem;
   border: var(--line);
@@ -114,7 +120,7 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
   font-size: .9rem;
   text-decoration: none;
 }
-.work-heading a:hover, .work-heading a:focus-visible, .consulting-link:hover, .consulting-link:focus-visible { background: var(--ink); color: var(--paper); }
+.work-heading a:hover, .work-heading a:focus-visible { background: var(--ink); color: var(--paper); }
 .roles, .projects { display: grid; gap: clamp(.6rem, 1vw, 1rem); }
 .roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .projects { grid-template-columns: 1.15fr 1fr; }
@@ -228,27 +234,4 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 @media (max-width: 700px) {
   .skills-list { grid-template-columns: 1fr; }
   .work-links a { padding-block: .65rem; }
-}
-
-.work-tile-heading { display: flex; align-items: center; gap: .5rem; padding-right: 16%; }
-.work-link { text-decoration: none; }
-.work-link::after { content: ""; position: absolute; inset: 0; }
-.work-tile .consulting-link {
-  position: relative;
-  flex: none;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  width: 7em;
-  line-height: 1.15;
-  font-size: clamp(.75rem, 1cqw, .95rem);
-  padding: .2em .45em;
-}
-@container (max-width: 850px) {
-  .work-tile .tile-name { font-size: 1.3rem; }
-  .work-tile .tile-name img { display: none; }
-}
-@media (max-width: 700px) {
-  .work-tile, .gallery-tile { grid-column: 1 / -1; }
-  .work-tile-heading { padding-right: 0; }
 }
