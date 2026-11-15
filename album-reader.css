@@ -134,9 +134,6 @@ html:has(.album-reader[open]) { overflow: hidden; }
 .reader-row[data-shape="award"] > :last-child {
   --frame: polygon(0 0, 100% 0, 100% 100%, var(--cut) 100%);
 }
-.reader-row[data-shape="award"] > :not(:first-child) img {
-  filter: grayscale(1) contrast(1.12);
-}
 @media (max-width: 600px) {
   .reader-row[data-shape="award"] { aspect-ratio: .95; }
 }

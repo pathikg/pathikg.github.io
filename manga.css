@@ -223,7 +223,6 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
   height: 100%;
   min-height: 0;
   object-fit: cover;
-  filter: grayscale(1) contrast(1.15);
 }
 .album-copy {
   position: absolute;
