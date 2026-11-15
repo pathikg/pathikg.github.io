@@ -103,7 +103,18 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .sheet h1 { font-size: clamp(2.5rem, 4.2vw, 4.3rem); margin-bottom: .35em; }
 .work-heading { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 0 1rem; margin-bottom: 1rem; }
 .work-heading h1 { margin-bottom: 0; }
-.work-heading a { display: inline-flex; align-items: center; min-height: 44px; }
+.work-heading a {
+  display: inline-flex;
+  align-items: center;
+  margin-inline-start: auto;
+  min-height: 44px;
+  padding: .35rem .75rem;
+  border: var(--line);
+  box-shadow: 2px 2px var(--ink);
+  font-size: .9rem;
+  text-decoration: none;
+}
+.work-heading a:hover, .work-heading a:focus-visible { background: var(--ink); color: var(--paper); }
 .roles, .projects { display: grid; gap: clamp(.6rem, 1vw, 1rem); }
 .roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 .projects { grid-template-columns: 1.15fr 1fr; }
