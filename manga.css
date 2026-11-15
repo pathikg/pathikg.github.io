@@ -156,8 +156,13 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .caption a { text-decoration: none; }
 .caption a:hover { text-decoration: underline; }
 .project p { margin-top: .8em; max-width: 48ch; }
-.photo-section { margin-top: clamp(1rem, 2vw, 2rem); }
-.photo-section h2 { margin-bottom: .45em; font-size: clamp(1.45rem, 2.2vw, 2.1rem); }
+.trip-albums {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  align-items: start;
+  gap: 1rem;
+  margin-top: 1rem;
+}
 .photo-grid { display: grid; gap: clamp(.5rem, 1vw, 1rem); }
 .album { border: var(--line); }
 .album summary { display: grid; grid-template-columns: minmax(0, 24rem) minmax(0, 36rem); cursor: pointer; list-style: none; align-items: center; }
@@ -172,16 +177,20 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
 .album .when-open, .album[open] .when-closed { display: none; }
 .album[open] .when-open { display: inline; }
 .session-photos { grid-template-columns: repeat(3, minmax(0, 1fr)); padding: .75rem; border-top: var(--line); }
-.ride-photos { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.trip-album summary { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+.trip-album .album-cover { aspect-ratio: 4 / 3; object-fit: cover; }
+.trip-album .album-copy { padding: clamp(.8rem, 1.8vw, 1.5rem); }
+.trip-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: .65rem; border-top: var(--line); }
 .photo-grid figure { margin: 0; min-width: 0; border: var(--line); }
 .photo-grid a, .photo-grid img { display: block; width: 100%; }
 .photo-grid img { height: 100%; object-fit: cover; }
 .session-photos a { aspect-ratio: 3 / 4; }
-.ride-photos a { aspect-ratio: 1; }
+.trip-photos a { aspect-ratio: 4 / 3; }
 .photo-grid figcaption { padding: .65rem .75rem; font-size: clamp(.85rem, 1vw, 1rem); }
 @media (max-width: 700px) {
-  .ride-photos { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .trip-albums { grid-template-columns: 1fr; }
   .album summary, .session-photos { grid-template-columns: 1fr; }
+  .trip-album summary { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
   .album-copy { gap: .5rem; }
 
 }
