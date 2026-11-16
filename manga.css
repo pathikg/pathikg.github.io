@@ -162,11 +162,20 @@ nav a[aria-current], .masthead a:hover { text-decoration: underline; }
   padding-inline: clamp(.75rem, 2.2vw, 2rem);
   border: 0;
 }
+.gallery-heading { display: flex; align-items: center; gap: .75rem; flex-wrap: wrap; margin-bottom: .7rem; }
+.gallery-heading h1 { flex: 1 0 7ch; }
+.gallery-stats { display: flex; align-items: center; gap: .65rem; font-size: .9rem; }
+.gallery-stats[hidden], .gallery-stats [role="status"]:empty { display: none; }
+.gallery-stats button { padding: .4rem .65rem; min-height: 44px; border: 1px solid var(--ink); font: inherit; color: var(--ink); background: var(--paper); cursor: pointer; }
+.gallery-stats button:disabled { cursor: default; }
+.gallery-stats .heart { font-family: system-ui, sans-serif; }
+.gallery-stats [role="status"] { flex-basis: 100%; font-size: .8rem; }
+.gallery-stats:has([role="status"]:not(:empty)) { flex-wrap: wrap; }
 .gallery-sheet h1 {
   display: flex;
   align-items: center;
   gap: .4em;
-  margin-bottom: .3em;
+  margin-bottom: 0;
   line-height: 1;
 }
 .gallery-sheet h1::after {
